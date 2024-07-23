@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
     textAlign:'center',
-    marginTop:'2.5%'
+    //marginTop:'2.5%'
   },
   label: {
     fontSize: 23,
