@@ -6,6 +6,7 @@ const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.imageHeader}>
+      <Image style={styles.logoImage} source={require('./logo_samo.png')} />
 
       </View>
       <View style={styles.header}>
@@ -50,11 +51,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   imageHeader: {
-    flex: 0.05, // Adjust the flex value as needed
+    flex: 0.1, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
     width: '100%',
+    marginBottom: 10,
+  },
+   logoImage: {
+    flex: 2, // Adjust the flex value as needed
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: '30%',
+    height: '30%',
     marginBottom: 10,
   },
   title: {
