@@ -1,9 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, Button, Pressable } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, Pressable, Image } from 'react-native';
+
 
 const LoginScreen = () => {
   return (
     <View style={styles.container}>
+      <View style={styles.imageHeader}>
+
+      </View>
       <View style={styles.header}>
         <Text style={styles.title}>Sarajevogas Helpdesk</Text>
       </View>
@@ -42,6 +46,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#007F37',
+    width: '100%',
+    marginBottom: 10,
+  },
+  imageHeader: {
+    flex: 0.05, // Adjust the flex value as needed
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
     width: '100%',
     marginBottom: 10,
   },
