@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TextInput, Button, Pressable, Image } from 'react-native';
 
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageHeader}>
@@ -30,7 +30,7 @@ const LoginScreen = () => {
           secureTextEntry
           autoCapitalize="none"
         />
-        <Button title="Login" color="#0056b3" onPress={() => {}} style={styles.button} />
+        <Button title="Login" color="#0056b3" onPress={() => navigation.navigate('Dashboard')} style={styles.button} />
       </View>
     </View>
   );

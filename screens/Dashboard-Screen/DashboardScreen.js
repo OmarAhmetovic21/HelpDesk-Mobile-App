@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, TextInput, Button, Pressable, Image } from 'react-native';
 
 
-const DashboardScreen = () => {
+const DashboardScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageHeader}>
-      <Image style={styles.logoImage} source={require('./SarajevogasLogo2.png')} />
+      <Image style={styles.logoImage} source={require('./SarajevogasLogo2.jpg')} />
 
       </View>
       <View style={styles.header}>
@@ -30,7 +30,7 @@ const DashboardScreen = () => {
           secureTextEntry
           autoCapitalize="none"
         />
-        <Button title="Login" color="#0056b3" onPress={() => {}} style={styles.button} />
+        <Button title="Logout" color="#0056b3" onPress={() => navigation.navigate('Login')} style={styles.button} />
       </View>
     </View>
   );
