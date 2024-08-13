@@ -13,24 +13,13 @@ const DashboardScreen = ({ navigation }) => {
         <Text style={styles.title}>Helpdesk</Text>
       </View>
       <View style={styles.loginHeader}>
-        <Text style={styles.loginTitle}>Dobro došao, korisnik</Text>
+        <Text style={styles.welcomeTitle}>Dobro došao, korisnik</Text>
+      </View>
+      <View style={styles.loginHeader}>
+        <Text style={styles.welcomeTitle}>Taskovi</Text>
       </View>
       <View style={styles.formContainer}>
-        <Text style={styles.label}>Email</Text>
-        <TextInput
-          placeholder="ime.prezime@sarajevogas.ba"
-          style={styles.input}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <Text color='#0056b3' style={styles.label}>Password</Text>
-        <TextInput
-          placeholder="Unesi svoj password"
-          style={styles.input}
-          secureTextEntry
-          autoCapitalize="none"
-        />
-        <Button title="Logout" color="#0056b3" onPress={() => navigation.navigate('Login')} style={styles.button} />
+        <Button title="Logout" color="#ff0808" onPress={() => navigation.navigate('Login')} style={styles.button} />
       </View>
     </View>
   );
@@ -63,7 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    width: '30%',
+    width: '80%',
     height: '30%',
     marginBottom: 10,
   },
@@ -82,6 +71,11 @@ const styles = StyleSheet.create({
   },
   loginTitle: {
     fontSize: 24,
+    fontWeight: 'bold',
+    color: '#0056b3',
+  },
+  welcomeTitle: {
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#0056b3',
   },
