@@ -18,6 +18,9 @@ const DashboardScreen = ({ navigation }) => {
       <View style={styles.loginHeader}>
         <Text style={styles.welcomeTitle}>Taskovi</Text>
       </View>
+      <View style={styles.taskCard}>
+        <Text style={styles.cardTitle}>Zadatak 1</Text>
+      </View>
       <View style={styles.formContainer}>
         <Button title="Logout" color="#ff0808" onPress={() => navigation.navigate('Login')} style={styles.button} />
       </View>
@@ -32,6 +35,14 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   header: {
+    flex: 0.05, // Adjust the flex value as needed
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#007F37',
+    width: '100%',
+    marginBottom: 10,
+  },
+  taskCard: {
     flex: 0.05, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
@@ -57,6 +68,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  cardTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     color: 'white',
