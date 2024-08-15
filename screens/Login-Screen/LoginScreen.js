@@ -66,6 +66,8 @@ const styles = StyleSheet.create({
     width: '30%',
     height: '30%',
     marginBottom: 10,
+    aspectRatio: 1, 
+    resizeMode: 'contain' 
   },
   title: {
     fontSize: 24,

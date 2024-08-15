@@ -57,15 +57,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: '100%',
     marginBottom: 10,
+
   },
    logoImage: {
-    flex: 2, // Adjust the flex value as needed
+    flex: 4, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    width: '80%',
-    height: '30%',
+    width: '100%',
+    height: '100%',
     marginBottom: 10,
+    aspectRatio: 1, 
+    resizeMode: 'contain' 
   },
   title: {
     fontSize: 24,
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   cardTitle: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
     color: 'black',
   },
