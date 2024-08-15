@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     width: '100%',
-    marginBottom: 10,
+    marginBottom: 5,
   },
    logoImage: {
     flex: 2, // Adjust the flex value as needed
