@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     flex: 0.05, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#007F37',
+    backgroundColor: '#D9D9D9',
     width: '100%',
     marginBottom: 10,
   },
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
   },
   loginHeader: {
     flex: 0.1, // Adjust the flex value as needed
