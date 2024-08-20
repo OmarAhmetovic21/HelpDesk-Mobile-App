@@ -20,6 +20,7 @@ const DashboardScreen = ({ navigation }) => {
       </View>
       <View style={styles.taskCard}>
         <Text style={styles.cardTitle}>Zadatak 1</Text>
+        <Text style={styles.cardTitle}>Opis zadatka</Text>
       </View>
       <View style={styles.formContainer}>
         <Button title="Logout" color="#ff0808" onPress={() => navigation.navigate('Login')} style={styles.button} />
@@ -43,11 +44,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   taskCard: {
-    flex: 0.05, // Adjust the flex value as needed
+    flex: 0.2, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#D9D9D9',
     width: '100%',
+    height: '40%',
     marginBottom: 10,
   },
   imageHeader: {
