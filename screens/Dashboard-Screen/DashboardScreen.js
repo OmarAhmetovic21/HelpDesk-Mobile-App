@@ -34,40 +34,31 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   header: {
-    flex: 0.05, // Adjust the flex value as needed
+    height: 50, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#007F37',
     width: '100%',
     marginBottom: 10,
   },
-  taskCard: {
-    flex: 0.2, // Adjust the flex value as needed
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#D9D9D9',
-    width: '100%',
-    height: '40%',
-    marginBottom: 10,
-  },
   imageHeader: {
-    flex: 0.1, // Adjust the flex value as needed
+    height: 75, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
     width: '100%',
-    marginBottom: 10,
-
+    marginBottom: 5,
   },
    logoImage: {
-    flex: 4, // Adjust the flex value as needed
+   height: 100, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    width: '100%',
-    height: '100%',
+    width: '30%',
     marginBottom: 10,
     aspectRatio: 1, 
     resizeMode: 'contain' 
@@ -77,31 +68,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'black',
-  },
   loginHeader: {
-    flex: 0.1, // Adjust the flex value as needed
+    height: 50, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
     width: '100%',
     marginBottom: 20,
   },
-  loginTitle: {
+  welcomeTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#0056b3',
   },
-  welcomeTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#0056b3',
-  },
   formContainer: {
-    flex: 0.8, // Adjust the flex value as needed
+    height: 200, // Adjust the flex value as needed
     width: '100%',
   },
   label: {
@@ -125,6 +106,22 @@ const styles = StyleSheet.create({
     color: 'white',
     paddingVertical: 20,
     paddingHorizontal: 20,
+  },
+
+  taskCard: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#D9D9D9',
+    width: '60%', // širina je 80% od širine ekrana
+    height: 150,  // visina u pikselima, prilagodi po potrebi
+    marginBottom: 20,
+    borderRadius: 10, 
+  },
+
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'black',
   },
 });
 

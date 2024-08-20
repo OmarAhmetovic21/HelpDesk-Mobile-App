@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   header: {
-    flex: 0.05, // Adjust the flex value as needed
+    height: 50, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#007F37',
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   imageHeader: {
-    flex: 0.1, // Adjust the flex value as needed
+    height: 75, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
@@ -59,12 +59,11 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
    logoImage: {
-    flex: 2, // Adjust the flex value as needed
+   height: 100, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
     width: '30%',
-    height: '30%',
     marginBottom: 10,
     aspectRatio: 1, 
     resizeMode: 'contain' 
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   loginHeader: {
-    flex: 0.1, // Adjust the flex value as needed
+    height: 50, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
     color: '#0056b3',
   },
   formContainer: {
-    flex: 0.8, // Adjust the flex value as needed
+    height: 200, // Adjust the flex value as needed
     width: '100%',
   },
   label: {
