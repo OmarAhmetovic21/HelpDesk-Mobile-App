@@ -30,8 +30,9 @@ const LoginScreen = ({ navigation }) => {
           secureTextEntry
           autoCapitalize="none"
         />
-        <Button title="Login" color="#0056b3" onPress={() => navigation.navigate('Dashboard')} style={styles.button} />
+        
       </View>
+      <Button title="Login" color="#0056b3" onPress={() => navigation.navigate('Dashboard')} style={styles.button} />
     </View>
   );
 };
@@ -111,6 +112,7 @@ const styles = StyleSheet.create({
     color: 'white',
     paddingVertical: 20,
     paddingHorizontal: 20,
+    marginTop: 100,
   },
 });
 
