@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   loginHeader:{
-    height: 50, // Adjust the flex value as needed
+    height: 30, // Adjust the flex value as needed
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
@@ -177,12 +177,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 21,
     fontWeight: 'bold',
     color: 'white',
   },
   welcomeTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#0056b3',
   },

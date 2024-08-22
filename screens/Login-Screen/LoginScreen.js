@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain' 
   },
   title: {
-    fontSize: 24,
+    fontSize: 21,
     fontWeight: 'bold',
     color: 'white',
   },
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   loginTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#0056b3',
   },
