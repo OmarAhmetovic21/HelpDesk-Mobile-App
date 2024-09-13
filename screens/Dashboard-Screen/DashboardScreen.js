@@ -21,9 +21,6 @@ const DashboardScreen = ({ navigation }) => {
         <View style={styles.taskCard}>
           <View style={styles.cardHeader}>
             <Text style={styles.cardTitle}>Zadatak 1</Text>
-            <Pressable style={styles.deleteButton}>
-              <Text style={styles.deleteButtonText}>🗑️</Text>
-            </Pressable>
           </View>
           <Text style={styles.cardDescription}>Odnijeti računare i popraviti ŠTO PRIJE I HITNO</Text>
           <View style={styles.taskInfoContainer}>
@@ -189,7 +186,7 @@ const styles = StyleSheet.create({
   formContainer: {
     width: '100%',
     marginTop: 50,
-  },
+  }
 });
 
 export default DashboardScreen;
