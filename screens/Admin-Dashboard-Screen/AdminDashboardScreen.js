@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, Pressable, Image } from 'react-native';
 
-const DashboardScreen = ({ navigation }) => {
+const AdminDashboardScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageHeader}>
@@ -11,16 +11,21 @@ const DashboardScreen = ({ navigation }) => {
         <Text style={styles.title}>Helpdesk</Text>
       </View>
       <View style={styles.loginHeader}>
-        <Text style={styles.welcomeTitle}>Dobro došao, korisnik</Text>
+        <Text style={styles.welcomeTitle}>Dobro došao, admin</Text>
       </View>
       <View style={styles.loginHeader}>
         <Text style={styles.welcomeTitle}>Taskovi</Text>
+        <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('Login')} />
       </View>
+
       
       <View style={styles.cardContainer}>
-        <View style={styles.taskCard}>
+      <View style={styles.taskCard}>
           <View style={styles.cardHeader}>
             <Text style={styles.cardTitle}>Zadatak 1</Text>
+            <Pressable style={styles.deleteButton}>
+              <Text style={styles.deleteButtonText}>🗑️</Text>
+            </Pressable>
           </View>
           <Text style={styles.cardDescription}>Odnijeti računare i popraviti ŠTO PRIJE I HITNO</Text>
           <View style={styles.taskInfoContainer}>
@@ -33,6 +38,10 @@ const DashboardScreen = ({ navigation }) => {
           </View>
           <Button title="Izmijeni" color="#0056b3" /*onPress={() => navigation.navigate('Dashboard')}*/ />
         </View>
+      </View>
+
+      <View style={styles.formContainer}>
+        <Button title="Prijavite smetnju" color="#0056b3" onPress={() => navigation.navigate('Login')} />
       </View>
       
       <View style={styles.formContainer}>
@@ -189,4 +198,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DashboardScreen;
+export default AdminDashboardScreen;

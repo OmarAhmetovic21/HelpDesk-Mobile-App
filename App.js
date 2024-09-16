@@ -3,6 +3,7 @@ import LoginScreen from './screens/Login-Screen/LoginScreen';
 import DashboardScreen from './screens/Dashboard-Screen/DashboardScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AdminDashboardScreen from './screens/Admin-Dashboard-Screen/AdminDashboardScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,11 @@ export default function App() {
         <Stack.Screen 
           name="Dashboard" 
           component={DashboardScreen} 
+          options={{ headerShown: false }} // Ako želiš sakriti header i na Dashboard ekranu
+        />
+                <Stack.Screen 
+          name="AdminDashboard" 
+          component={AdminDashboardScreen} 
           options={{ headerShown: false }} // Ako želiš sakriti header i na Dashboard ekranu
         />
       </Stack.Navigator>
