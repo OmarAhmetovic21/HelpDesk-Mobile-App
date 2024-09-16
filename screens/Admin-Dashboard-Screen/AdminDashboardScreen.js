@@ -15,7 +15,7 @@ const AdminDashboardScreen = ({ navigation }) => {
       </View>
       <View style={styles.loginHeader}>
         <Text style={styles.welcomeTitle}>Taskovi</Text>
-        <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('Login')} />
+        <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
       </View>
 
       
@@ -41,7 +41,7 @@ const AdminDashboardScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.formContainer}>
-        <Button title="Prijavite smetnju" color="#0056b3" onPress={() => navigation.navigate('Login')} />
+        <Button title="Prijavite smetnju" color="#0056b3" onPress={() => navigation.navigate('ReportIssue')} />
       </View>
       
       <View style={styles.formContainer}>
