@@ -34,6 +34,10 @@ const DashboardScreen = ({ navigation }) => {
           <Button title="Izmijeni" color="#0056b3" /*onPress={() => navigation.navigate('Dashboard')}*/ />
         </View>
       </View>
+
+      <View style={styles.formContainer}>
+        <Button title="Prijavi smetnju" color="#0056b3" onPress={() => navigation.navigate('Login')} />
+      </View>
       
       <View style={styles.formContainer}>
         <Button title="Logout" color="#ff0808" onPress={() => navigation.navigate('Login')} />
