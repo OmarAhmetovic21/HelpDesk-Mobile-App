@@ -9,9 +9,6 @@ const AddTaskScreen  = ({ navigation }) =>{
       <Image style={styles.logoImage} source={require('./logo_samo.png')} />
 
       </View>*/}
-      <View style={styles.header}>
-        <Text style={styles.title}>Sarajevogas Helpdesk</Text>
-      </View>
       <View style={styles.loginHeader}>
         <Text style={styles.loginTitle}>Dodajte Task</Text>
       </View>
@@ -30,9 +27,9 @@ const AddTaskScreen  = ({ navigation }) =>{
           secureTextEntry
           autoCapitalize="none"
         />
-        <Button title="Login" color="#0056b3" onPress={() => navigation.navigate('Dashboard')} style={styles.button} />
-        <Button title="Login Admin" color="#0056b3" onPress={() => navigation.navigate('AdminDashboard')} style={styles.button} />
+         <Button title="Spasi" color="#0056b3" onPress={() => navigation.navigate('AdminDashboard')} style={styles.buttonSave} />
       </View>
+      <Button title="Zatvori" color="#ff0808" onPress={() => navigation.navigate('AdminDashboard')} style={styles.buttonClose} />
       
     </View>
   );
@@ -44,32 +41,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 20,
   },
-  header: {
-    height: 50, // Adjust the flex value as needed
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#007F37',
-    width: '100%',
-    marginBottom: 10,
-  },
-  imageHeader: {
-    height: 75, // Adjust the flex value as needed
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    width: '100%',
-    marginBottom: 5,
-  },
-   logoImage: {
-   height: 100, // Adjust the flex value as needed
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    width: '30%',
-    marginBottom: 10,
-    aspectRatio: 1, 
-    resizeMode: 'contain' 
-  },
+
   title: {
     fontSize: 21,
     fontWeight: 'bold',
@@ -81,7 +53,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     width: '100%',
-    marginBottom: 20,
+    marginTop: '10%',
   },
   loginTitle: {
     fontSize: 20,
@@ -89,7 +61,7 @@ const styles = StyleSheet.create({
     color: '#0056b3',
   },
   formContainer: {
-    height: 200, // Adjust the flex value as needed
+    height: '30%', // Adjust the flex value as needed
     width: '100%',
   },
   label: {
@@ -109,11 +81,12 @@ const styles = StyleSheet.create({
     borderColor: '#007F37',
     borderWidth: 2
   },
-  button: {
+  buttonClose: {
     color: 'white',
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    marginTop: 100,
+    marginTop: '5%',
+  },
+  buttonSave: {
+    color: 'white',
   },
 });
 

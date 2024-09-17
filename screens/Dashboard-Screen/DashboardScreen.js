@@ -153,14 +153,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     width: '100%',
-    marginBottom: 5,
+    marginTop: '10%'
   },
   logoImage: {
-    height: 100,
+    height: 200,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    width: 200,
+    width: '100%',
     marginBottom: 10,
     aspectRatio: 1, 
     resizeMode: 'contain',

@@ -15,8 +15,8 @@ const AdminDashboardScreen = ({ navigation }) => {
       </View>
       <View style={styles.loginHeader}>
         <Text style={styles.welcomeTitle}>Taskovi</Text>
-        <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
       </View>
+      <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
 
       
       <View style={styles.cardContainer}>
@@ -162,14 +162,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     width: '100%',
-    marginBottom: 5,
+    marginTop: '10%'
   },
   logoImage: {
-    height: 100,
+    height: 200,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    width: 200,
+    width: '100%',
     marginBottom: 10,
     aspectRatio: 1, 
     resizeMode: 'contain',

@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#007F37',
     width: '100%',
-    marginBottom: 10,
   },
   imageHeader: {
     height: 75, // Adjust the flex value as needed
@@ -59,6 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: '100%',
     marginBottom: 5,
+    marginTop: '10%'
   },
    logoImage: {
    height: 100, // Adjust the flex value as needed

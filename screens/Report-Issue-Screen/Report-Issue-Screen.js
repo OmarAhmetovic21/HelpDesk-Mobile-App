@@ -5,34 +5,32 @@ const ReportIssueScreen  = ({ navigation }) =>{
 
   return (
     <View style={styles.container}>
-      {/*<View style={styles.imageHeader}>
-      <Image style={styles.logoImage} source={require('./logo_samo.png')} />
 
-      </View>*/}
-      <View style={styles.header}>
-        <Text style={styles.title}>Sarajevogas Helpdesk</Text>
-      </View>
       <View style={styles.loginHeader}>
-        <Text style={styles.loginTitle}>Prijavite Smetnju</Text>
+        <Text style={styles.loginTitle}>Prijavite Smetnju:</Text>
       </View>
       <View style={styles.formContainer}>
-        <Text style={styles.label}>Email</Text>
+      <TextInput
+          placeholder="Ime i Prezime"
+          style={styles.inputName}
+          autoCapitalize="none"
+        />
         <TextInput
           placeholder="ime.prezime@sarajevogas.ba"
-          style={styles.input}
+          style={styles.inputEmail}
           keyboardType="email-address"
           autoCapitalize="none"
         />
-        <Text color='#0056b3' style={styles.label}>Password</Text>
+        <Text style={styles.label}>Poruka:</Text>
         <TextInput
-          placeholder="Unesi svoj password"
-          style={styles.input}
-          secureTextEntry
-          autoCapitalize="none"
+          style={styles.inputMessage}
         />
-        <Button title="Login" color="#0056b3" onPress={() => navigation.navigate('Dashboard')} style={styles.button} />
-        <Button title="Login Admin" color="#0056b3" onPress={() => navigation.navigate('AdminDashboard')} style={styles.button} />
+        <Button title="Spasi" color="#007F37" onPress={() => navigation.navigate('AdminDashboard')} style={styles.buttonSave} />
+        <Button title="Zatvori" color="#ff0808" onPress={() => navigation.navigate('AdminDashboard')} style={styles.buttonClose} />
       </View>
+
+      
+      
       
     </View>
   );
@@ -43,32 +41,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     padding: 20,
-  },
-  header: {
-    height: 50, // Adjust the flex value as needed
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#007F37',
-    width: '100%',
-    marginBottom: 10,
-  },
-  imageHeader: {
-    height: 75, // Adjust the flex value as needed
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    width: '100%',
-    marginBottom: 5,
-  },
-   logoImage: {
-   height: 100, // Adjust the flex value as needed
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    width: '30%',
-    marginBottom: 10,
-    aspectRatio: 1, 
-    resizeMode: 'contain' 
   },
   title: {
     fontSize: 21,
@@ -81,40 +53,66 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     width: '100%',
-    marginBottom: 20,
+    marginTop: '10%',
   },
   loginTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#0056b3',
+    color: '#007F37',
   },
   formContainer: {
-    height: 200, // Adjust the flex value as needed
+    height: '30%', // Adjust the flex value as needed
     width: '100%',
   },
   label: {
     fontSize: 18,
     marginBottom: 5,
-    color: '#0056b3',
-    textAlign: 'center'
+    color:'#AFAFAF',
   },
-  input: {
+  inputEmail: {
     width: '100%',
     height: 40,
-    borderColor: 'gray',
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    borderColor: '#AFAFAF',
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderBottomWidth: 2,
+  },
+  inputName: {
+    width: '100%',
+    height: 40,
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
-    borderRadius: 3,
+    borderRadius: 0,
     borderColor: '#007F37',
-    borderWidth: 2
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderBottomWidth: 2,
   },
-  button: {
+  inputMessage: {
+    width: '100%',
+    height: 80,
+    borderColor: 'AFAFAF',
+    marginBottom: 10,
+    borderRadius: 9,
+    borderTopWidth: 2,
+    borderLeftWidth: 2,
+    borderRightWidth: 2,
+    borderBottomWidth: 2,
+  },
+  buttonClose: {
     color: 'white',
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    marginTop: 100,
+    
   },
+  buttonSave: {
+    color: 'white',
+    marginBottom: 10,
+  },
+
 });
 
 export default ReportIssueScreen;
