@@ -28,13 +28,16 @@ const ReportIssueScreen = ({ navigation }) => {
         <TextInput
           style={styles.inputMessage}
           multiline={true}
-          numberOfLines={4} // Minimalni broj linija
+          numberOfLines={4}
           textAlignVertical="top"
         />
         <Picker
           selectedValue={selectedSektor}
           onValueChange={(itemValue) => setSelectedSektor(itemValue)}
-          style={styles.picker}
+          style={[
+            styles.picker,
+            selectedSektor ? styles.pickerSelected : styles.pickerDefault, // Primjena stilova zavisi od vrijednosti
+          ]}
         >
           <Picker.Item label="Izaberite Sektor" value="" />
           <Picker.Item label="Sektor 1" value="sektor1" />
@@ -42,10 +45,9 @@ const ReportIssueScreen = ({ navigation }) => {
           <Picker.Item label="Sektor 3" value="sektor3" />
         </Picker>
 
-        {/* Razmak između dugmića postignut korištenjem margine ispod svakog dugmeta */}
         <View style={styles.buttonWrapper}>
           <Button
-            title="Pošalji"
+            title="Spasi"
             color="#007F37"
             onPress={() => navigation.navigate('AdminDashboard')}
           />
@@ -116,14 +118,20 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     padding: 5,
   },
-  buttonWrapper: {
-    marginBottom: 10, // Razmak između dugmadi
-  },
   picker: {
-    backgroundColor: '#D9D9D9',
-    borderRadius: 3,
-    color: '#0056b3',
     marginBottom: 10,
+    borderRadius: 3,
+  },
+  pickerDefault: {
+    backgroundColor: '#D9D9D9', // Siva pozadina kada nije izabrano ništa
+    color: '#0056b3', // Plava boja teksta kada je siva pozadina
+  },
+  pickerSelected: {
+    backgroundColor: '#0056b3', // Plava pozadina kada je izabrana vrijednost
+    color: '#FFFFFF', // Bijela boja teksta kada je plava pozadina
+  },
+  buttonWrapper: {
+    marginBottom: 15,
   },
 });
 
