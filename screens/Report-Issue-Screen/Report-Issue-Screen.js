@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import {View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 const ReportIssueScreen  = ({ navigation }) =>{
-
+  const [selectedSektor, setSelectedSektor] = useState("");
   return (
     <View style={styles.container}>
 
@@ -25,6 +26,16 @@ const ReportIssueScreen  = ({ navigation }) =>{
         <TextInput
           style={styles.inputMessage}
         />
+      <Picker
+        selectedValue={selectedSektor}
+        onValueChange={(itemValue) => setSelectedSektor(itemValue)}
+        style={styles.picker}
+      >
+        <Picker.Item label="Izaberite Sektor" value="" />
+        <Picker.Item label="Sektor 1" value="sektor1" />
+        <Picker.Item label="Sektor 2" value="sektor2" />
+        <Picker.Item label="Sektor 3" value="sektor3" />
+      </Picker>
         <Button title="Spasi" color="#007F37" onPress={() => navigation.navigate('AdminDashboard')} style={styles.buttonSave} />
         <Button title="Zatvori" color="#ff0808" onPress={() => navigation.navigate('AdminDashboard')} style={styles.buttonClose} />
       </View>
@@ -111,6 +122,11 @@ const styles = StyleSheet.create({
   buttonSave: {
     color: 'white',
     marginBottom: 10,
+  },
+  picker: {
+    backgroundColor: '#D9D9D9',
+    borderRadius: 3,
+    color: '#0056b3',
   },
 
 });

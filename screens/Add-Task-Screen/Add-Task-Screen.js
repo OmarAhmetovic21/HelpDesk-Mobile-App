@@ -5,10 +5,7 @@ const AddTaskScreen  = ({ navigation }) =>{
 
   return (
     <View style={styles.container}>
-      {/*<View style={styles.imageHeader}>
-      <Image style={styles.logoImage} source={require('./logo_samo.png')} />
 
-      </View>*/}
       <View style={styles.loginHeader}>
         <Text style={styles.loginTitle}>Dodajte Task</Text>
       </View>
@@ -42,11 +39,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 
-  title: {
-    fontSize: 21,
-    fontWeight: 'bold',
-    color: 'white',
-  },
   loginHeader: {
     height: 50, // Adjust the flex value as needed
     justifyContent: 'center',
