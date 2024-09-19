@@ -30,8 +30,16 @@ const LoginScreen = ({ navigation }) => {
           secureTextEntry
           autoCapitalize="none"
         />
-        <Button title="Login" color="#0056b3" onPress={() => navigation.navigate('Dashboard')} style={styles.button} />
-        <Button title="Login Admin" color="#0056b3" onPress={() => navigation.navigate('AdminDashboard')} style={styles.button} />
+
+       
+      </View>
+
+      <View style={styles.formContainer}>
+      <Button title="Login" color="#0056b3" onPress={() => navigation.navigate('Dashboard')} style={styles.button} />
+      </View>
+
+      <View style={styles.formContainer}>
+      <Button title="Login Admin" color="#0056b3" onPress={() => navigation.navigate('AdminDashboard')} style={styles.button} />
       </View>
       
     </View>

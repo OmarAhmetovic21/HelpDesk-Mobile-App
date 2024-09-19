@@ -11,12 +11,13 @@ const AdminDashboardScreen = ({ navigation }) => {
         <Text style={styles.title}>Helpdesk</Text>
       </View>
       <View style={styles.loginHeader}>
-        <Text style={styles.welcomeTitle}>Dobro došao, admin</Text>
+        <Text style={styles.welcomeTitle}>Dobro došao, šef sektora</Text>
       </View>
+      <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
       <View style={styles.loginHeader}>
         <Text style={styles.welcomeTitle}>Taskovi</Text>
       </View>
-      <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
+
 
       
       <View style={styles.cardContainer}>
