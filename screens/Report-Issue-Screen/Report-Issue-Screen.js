@@ -1,41 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 const ReportIssueScreen = ({ navigation }) => {
-  const [selectedOption, setSelectedOption] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [sectors, setSectors] = useState([]);
-
-  // Funkcija za dohvaćanje sektora
-  const fetchSectors = async () => {
-    try {
-      const token = localStorage.getItem('token'); // Preuzimanje tokena iz localStorage
-      const response = await fetch('http://localhost:3000/api/report-issue/sectors', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-      });
-      const data = await response.json();
-      console.log('Dohvaćeni sektori:', data);
-      setSectors(data || []); // Postavljanje dobijenih sektora u state
-    } catch (error) {
-      console.error('Greška prilikom dohvata sektora:', error);
-      Alert.alert('Greška', 'Nije moguće dohvatiti sektore. Pokušajte ponovo.');
-    }
-  };
-
-  // Učitavanje sektora kada se komponenta učita
-  useEffect(() => {
-    fetchSectors();
-  }, []);
+  const [selectedSektor, setSelectedSektor] = useState("");
 
   return (
     <View style={styles.container}>
+
       <View style={styles.loginHeader}>
         <Text style={styles.loginTitle}>Prijavite Smetnju:</Text>
       </View>
@@ -45,46 +17,38 @@ const ReportIssueScreen = ({ navigation }) => {
           placeholder="Ime i Prezime"
           style={styles.inputName}
           autoCapitalize="none"
-          value={name}
-          onChangeText={setName}
         />
         <TextInput
           placeholder="ime.prezime@sarajevogas.ba"
           style={styles.inputEmail}
           keyboardType="email-address"
           autoCapitalize="none"
-          value={email}
-          onChangeText={setEmail}
         />
         <Text style={styles.label}>Poruka:</Text>
         <TextInput
           style={styles.inputMessage}
           multiline={true}
-          numberOfLines={4}
+          numberOfLines={4} // Minimalni broj linija
           textAlignVertical="top"
-          value={message}
-          onChangeText={setMessage}
         />
+        <Picker
+          selectedValue={selectedSektor}
+          onValueChange={(itemValue) => setSelectedSektor(itemValue)}
+          style={[
+            styles.picker,
+            selectedSektor ? styles.pickerSelected : styles.pickerDefault, // Primjena stilova zavisi od vrijednosti
+          ]}
+        >
+          <Picker.Item label="Izaberite Sektor" value="" />
+          <Picker.Item label="Sektor 1" value="sektor1" />
+          <Picker.Item label="Sektor 2" value="sektor2" />
+          <Picker.Item label="Sektor 3" value="sektor3" />
+        </Picker>
 
-<Picker
-  selectedValue={selectedOption}
-  onValueChange={(itemValue, itemIndex) => setSelectedOption(itemValue)}
-  style={[
-    styles.picker,
-    selectedOption === '' ? styles.pickerDefault : styles.pickerSelected,
-  ]}
->
-  <Picker.Item label="Izaberite Sektor" value="" />
-  {sectors.length > 0 ?
-    sectors.map((sector, index) => (
-      <Picker.Item key={index} label={sector.name} value={sector.id} />
-    )) : <Picker.Item label="Nema dostupnih sektora" value="0" />
-  }
-</Picker>
-
+        {/* Razmak između dugmića postignut korištenjem margine ispod svakog dugmeta */}
         <View style={styles.buttonWrapper}>
           <Button
-            title="Spasi"
+            title="Pošalji"
             color="#007F37"
             onPress={() => navigation.navigate('AdminDashboard')}
           />
@@ -94,15 +58,15 @@ const ReportIssueScreen = ({ navigation }) => {
           <Button
             title="Zatvori"
             color="#ff0808"
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate('AdminDashboard')}
           />
         </View>
       </View>
+
     </View>
   );
 };
 
-// Stilovi za komponentu
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -155,19 +119,23 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     padding: 5,
   },
+  buttonWrapper: {
+    marginBottom: 10, // Razmak između dugmadi
+  },
   picker: {
-    height: 50,  // Kontroliši visinu picker-a
-    backgroundColor: '#f0f0f0', // Lagano siva pozadina
-    borderRadius: 5, // Lagano zaobljeni uglovi
-    marginVertical: 10, // Prostor iznad i ispod picker-a
-    color: '#224798', // Dodaj boju za prikazani tekst
+    backgroundColor: '#D9D9D9',
+    borderRadius: 3,
+    color: '#0056b3',
+    marginBottom: 10,
+    borderRadius: 3,
   },
   pickerDefault: {
-    backgroundColor: '#f0f0f0',
-    color: '#AFAFAF', // Siva boja teksta kada ništa nije izabrano
+    backgroundColor: '#D9D9D9', // Siva pozadina kada nije izabrano ništa
+    color: '#0056b3', // Plava boja teksta kada je siva pozadina
   },
   pickerSelected: {
-    color: '#000000', // Crna boja teksta kada je nešto izabrano
+    backgroundColor: '#0056b3', // Plava pozadina kada je izabrana vrijednost
+    color: '#FFFFFF', // Bijela boja teksta kada je plava pozadina
   },
   buttonWrapper: {
     marginBottom: 15,
