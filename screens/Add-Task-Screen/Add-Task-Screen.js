@@ -60,14 +60,14 @@ const AddTaskScreen  = ({ navigation }) =>{
 
         </Picker>
         <View style={styles.buttonWrapper}>
-          <Button title="Spasi" color="#0056b3" onPress={() => navigation.navigate('AdminDashboard')} style={styles.buttonSave} />
+          <Button title="Spasi" color="#0056b3" onPress={() => navigation.navigate('Dashboard')} style={styles.buttonSave} />
         </View>
 
         <View style={styles.buttonWrapper}>
           <Button
             title="Zatvori"
             color="#ff0808"
-            onPress={() => navigation.navigate('AdminDashboard')}
+            onPress={() => navigation.goBack()}
           />
         </View>
          

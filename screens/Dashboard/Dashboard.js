@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, Pressable, Image } from 'react-native';
 
-const DashboardScreen = ({ navigation }) => {
+const Dashboard = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageHeader}>
@@ -11,16 +11,22 @@ const DashboardScreen = ({ navigation }) => {
         <Text style={styles.title}>Helpdesk</Text>
       </View>
       <View style={styles.loginHeader}>
-        <Text style={styles.welcomeTitle}>Dobro došao, korisnik</Text>
+        <Text style={styles.welcomeTitle}>Dobro došao, šef sektora</Text>
       </View>
+      <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
       <View style={styles.loginHeader}>
         <Text style={styles.welcomeTitle}>Taskovi</Text>
       </View>
+
+
       
       <View style={styles.cardContainer}>
-        <View style={styles.taskCard}>
+      <View style={styles.taskCard}>
           <View style={styles.cardHeader}>
             <Text style={styles.cardTitle}>Zadatak 1</Text>
+            <Pressable style={styles.deleteButton}>
+              <Text style={styles.deleteButtonText}>🗑️</Text>
+            </Pressable>
           </View>
           <Text style={styles.cardDescription}>Odnijeti računare i popraviti ŠTO PRIJE I HITNO</Text>
           <View style={styles.taskInfoContainer}>
@@ -193,4 +199,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DashboardScreen;
+export default Dashboard
