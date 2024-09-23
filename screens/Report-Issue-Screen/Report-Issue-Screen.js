@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react'; 
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 const ReportIssueScreen = ({ navigation }) => {
-  const [selectedSektor, setSelectedSektor] = useState("");
-  const [sectors, setSectors] = useState([]);
+  //const [selectedSektor, setSelectedSektor] = useState("");
+  const [selectedOption, setSelectedOption] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [sectors, setSectors] = useState([]); 
 
   const fetchSectors = async () => {
     try {
@@ -30,6 +34,35 @@ const ReportIssueScreen = ({ navigation }) => {
     fetchSectors();
   }, []);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+        const response = await fetch('http://localhost:3000/api/report-issue', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, email, sector: selectedOption, message }),
+        });
+
+        if (response.ok) {
+            alert('Smetnja je uspješno prijavljena!');
+            toggleModal();
+        } else {
+            alert('Došlo je do greške prilikom prijave smetnje.');
+        }
+    } catch (error) {
+        console.error('Greška prilikom slanja prijave smetnje:', error);
+        alert('Došlo je do greške prilikom slanja prijave smetnje.');
+    }
+};
+
+const handleChange = (event) => {
+  setSelectedOption(event.target.value);
+};
+
+
   return (
     <View style={styles.container}>
 
@@ -40,17 +73,23 @@ const ReportIssueScreen = ({ navigation }) => {
       <View style={styles.formContainer}>
         <TextInput
           placeholder="Ime i Prezime"
+          value={name}
+          onChangeText={setName}
           style={styles.inputName}
           autoCapitalize="none"
         />
         <TextInput
           placeholder="ime.prezime@sarajevogas.ba"
+          value={email}
+          onChangeText={setEmail}
           style={styles.inputEmail}
           keyboardType="email-address"
           autoCapitalize="none"
         />
         <Text style={styles.label}>Poruka:</Text>
         <TextInput
+          value={message}
+          onChangeText={setMessage}
           style={styles.inputMessage}
           multiline={true}
           numberOfLines={4} // Minimalni broj linija
@@ -58,28 +97,29 @@ const ReportIssueScreen = ({ navigation }) => {
         />
         
         <Picker
-          selectedValue={selectedSektor}
-          onValueChange={(itemValue) => {
-            setSelectedSektor(itemValue);
-          }}
+value={selectedOption}
+onChange={handleChange}
+          name="sector" 
           style={[
             styles.picker,
-            selectedSektor ? styles.pickerSelected : styles.pickerDefault, // Primjena stilova zavisi od vrijednosti
+            selectedOption ? styles.pickerSelected : styles.pickerDefault, // Primjena stilova zavisi od vrijednosti
           ]}
         >
           {/* "Izaberite Sektor" je vidljivo, ali onemogućeno za izbor */}
           <Picker.Item label="Izaberite Sektor" value="" enabled={false} />
-          <Picker.Item label="Sektor 1" value="sektor1" />
-          <Picker.Item label="Sektor 2" value="sektor2" />
-          <Picker.Item label="Sektor 3" value="sektor3" />
+
+          {/* Mapiranje sektora dohvaćenih sa API-ja u Picker.Item */}
+          {sectors.map((sector) => (
+            <Picker.Item key={sector.id} label={sector} value={sector.id} />
+          ))}
+
         </Picker>
 
-        {/* Razmak između dugmića postignut korištenjem margine ispod svakog dugmeta */}
         <View style={styles.buttonWrapper}>
           <Button
             title="Pošalji"
             color="#007F37"
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate('AdminDashboard')}
           />
         </View>
 
