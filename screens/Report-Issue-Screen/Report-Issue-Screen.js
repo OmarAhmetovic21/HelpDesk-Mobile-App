@@ -85,6 +85,7 @@ const handleChange = (event) => {
           style={styles.inputEmail}
           keyboardType="email-address"
           autoCapitalize="none"
+          required
         />
         <Text style={styles.label}>Poruka:</Text>
         <TextInput
@@ -94,12 +95,14 @@ const handleChange = (event) => {
           multiline={true}
           numberOfLines={4} // Minimalni broj linija
           textAlignVertical="top"
+          required 
         />
         
         <Picker
 value={selectedOption}
 onChange={handleChange}
           name="sector" 
+          required 
           style={[
             styles.picker,
             selectedOption ? styles.pickerSelected : styles.pickerDefault, // Primjena stilova zavisi od vrijednosti
@@ -119,7 +122,7 @@ onChange={handleChange}
           <Button
             title="Pošalji"
             color="#007F37"
-            onPress={() => navigation.navigate('AdminDashboard')}
+            onPress={handleSubmit}
           />
         </View>
 
