@@ -21,15 +21,15 @@ const LoginScreen = ({ navigation }) => {
 
       if (response.ok) {
         // Sačuvaj token, ulogu i korisnički ID koristeći AsyncStorage
-        await AsyncStorage.setItem('token', data.token);
-        await AsyncStorage.setItem('userRole', data.user.role);
-        await AsyncStorage.setItem('userId', data.user.id);
+        await sessionStorage.setItem('token', data.token);
+        await sessionStorage.setItem('userRole', data.user.role);
+        await sessionStorage.setItem('userId', data.user.id);
 
         console.log('Sačuvan korisnički ID:', data.user.id);
 
         // Pohrani sektor u AsyncStorage (ako postoji)
         const userSector = data.user.sector || 'Sektor 1'; // Primjer ručnog postavljanja
-        await AsyncStorage.setItem('userSector', userSector);
+        await sessionStorage.setItem('userSector', userSector);
         console.log('Sačuvan sektor:', userSector);
 
         // Navigiraj prema dashboard-u ili redirekciji

@@ -1,7 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, StyleSheet, Button, Pressable, Image } from 'react-native';
 
+
+
+const handleLogout = async () => {
+  try {
+    // Briše sve podatke iz sessionStorage (ili specificirane ključeve)
+    await sessionStorage.removeItem('token');
+    await sessionStorage.removeItem('userRole');
+    await sessionStorage.removeItem('userId');
+    await sessionStorage.removeItem('userSector');
+    
+    // Možeš dodati navigaciju ka login ekranu nakon logout-a
+    navigation.navigate('Login');  // Pretpostavljam da koristiš 'LoginScreen' kao login rutu
+  } catch (error) {
+    console.error('Greška prilikom odjave:', error);
+  }
+};
+
 const WorkerDashboard = ({ navigation }) => {
+  const [tasks, setTasks] = useState([]); 
+
+const fetchTasks = async () => {
+  try {
+      const response = await fetch('http://localhost:3000/api/tasks/all-tasks', { 
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+      });
+      const data = await response.json();
+      setTasks(data);
+      console.log('Dohvaćeni Taskovi:', data);
+  } catch (error) {
+      console.error('Greška prilikom preuzimanja taskova:', error);
+  }
+};
+
+useEffect(() => {
+  fetchTasks();
+}, []);
   return (
     <View style={styles.container}>
       <View style={styles.imageHeader}>
@@ -40,7 +79,7 @@ const WorkerDashboard = ({ navigation }) => {
       </View>
       
       <View style={styles.formContainer}>
-        <Button title="Logout" color="#ff0808" onPress={() => navigation.navigate('Login')} />
+        <Button title="Logout" color="#ff0808" onPress={handleLogout} />
       </View>
     </View>
   );

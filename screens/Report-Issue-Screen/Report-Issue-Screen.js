@@ -3,7 +3,6 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 const ReportIssueScreen = ({ navigation }) => {
-  //const [selectedSektor, setSelectedSektor] = useState("");
   const [selectedOption, setSelectedOption] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -34,9 +33,7 @@ const ReportIssueScreen = ({ navigation }) => {
     fetchSectors();
   }, []);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleSubmit = async () => {
     try {
         const response = await fetch('http://localhost:3000/api/report-issue', {
             method: 'POST',
@@ -45,23 +42,21 @@ const ReportIssueScreen = ({ navigation }) => {
             },
             body: JSON.stringify({ name, email, sector: selectedOption, message }),
         });
+        const data = await response.json();
+        console.log('Server odgovor:', data);
 
         if (response.ok) {
-            alert('Smetnja je uspješno prijavljena!');
-            toggleModal();
+            alert('Uspjeh, Smetnja je uspješno prijavljena!');
+            console.log('Uspjeh, Smetnja je uspješno prijavljena!');
         } else {
-            alert('Došlo je do greške prilikom prijave smetnje.');
+            alert('Greška, Došlo je do greške prilikom prijave smetnje.');
+            console.log('Greška, Došlo je do greške prilikom prijave smetnje.');
         }
     } catch (error) {
         console.error('Greška prilikom slanja prijave smetnje:', error);
-        alert('Došlo je do greške prilikom slanja prijave smetnje.');
+        alert('Greška, Došlo je do greške prilikom slanja prijave smetnje.');
     }
-};
-
-const handleChange = (event) => {
-  setSelectedOption(event.target.value);
-};
-
+  };
 
   return (
     <View style={styles.container}>
@@ -85,7 +80,6 @@ const handleChange = (event) => {
           style={styles.inputEmail}
           keyboardType="email-address"
           autoCapitalize="none"
-          required
         />
         <Text style={styles.label}>Poruka:</Text>
         <TextInput
@@ -93,30 +87,28 @@ const handleChange = (event) => {
           onChangeText={setMessage}
           style={styles.inputMessage}
           multiline={true}
-          numberOfLines={4} // Minimalni broj linija
+          numberOfLines={4}
           textAlignVertical="top"
-          required 
         />
         
         <Picker
-value={selectedOption}
-onChange={handleChange}
-          name="sector" 
-          required 
-          style={[
-            styles.picker,
-            selectedOption ? styles.pickerSelected : styles.pickerDefault, // Primjena stilova zavisi od vrijednosti
-          ]}
-        >
-          {/* "Izaberite Sektor" je vidljivo, ali onemogućeno za izbor */}
-          <Picker.Item label="Izaberite Sektor" value="" enabled={false} />
+  selectedValue={selectedOption}
+  onValueChange={(itemValue) => setSelectedOption(itemValue)}
+  style={[
+    styles.picker,
+    selectedOption ? styles.pickerSelected : styles.pickerDefault, 
+  ]}
+>
+  <Picker.Item label="Izaberite Sektor" value="" enabled={false} />
 
-          {/* Mapiranje sektora dohvaćenih sa API-ja u Picker.Item */}
-          {sectors.map((sector) => (
-            <Picker.Item key={sector.id} label={sector} value={sector.id} />
-          ))}
-
-        </Picker>
+  {sectors.map((sector, index) => (
+    <Picker.Item 
+      key={sector.id || index}  // Ensure unique keys, fall back to index if id is missing
+      label={sector} 
+      value={sector.id} 
+    />
+  ))}
+</Picker>
 
         <View style={styles.buttonWrapper}>
           <Button
@@ -196,15 +188,14 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     color: '#0056b3',
     marginBottom: 10,
-    borderRadius: 3,
   },
   pickerDefault: {
-    backgroundColor: '#D9D9D9', // Siva pozadina kada nije izabrano ništa
-    color: '#0056b3', // Plava boja teksta kada je siva pozadina
+    backgroundColor: '#D9D9D9', 
+    color: '#0056b3',
   },
   pickerSelected: {
-    backgroundColor: '#0056b3', // Plava pozadina kada je izabrana vrijednost
-    color: '#FFFFFF', // Bijela boja teksta kada je plava pozadina
+    backgroundColor: '#0056b3', 
+    color: '#FFFFFF',
   },
   buttonWrapper: {
     marginBottom: 15,
