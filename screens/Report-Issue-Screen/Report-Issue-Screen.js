@@ -11,7 +11,7 @@ const ReportIssueScreen = ({ navigation }) => {
 
   const fetchSectors = async () => {
     try {
-      const token = localStorage.getItem('token'); // Preuzimanje tokena iz localStorage
+      const token = sessionStorage.getItem('token'); // Preuzimanje tokena iz localStorage
       const response = await fetch('http://localhost:3000/api/report-issue/sectors', {
         method: 'GET',
         headers: {

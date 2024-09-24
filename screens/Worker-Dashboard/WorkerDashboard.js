@@ -24,10 +24,12 @@ const WorkerDashboard = ({ navigation }) => {
 
 const fetchTasks = async () => {
   try {
-      const response = await fetch('http://localhost:3000/api/tasks/all-tasks', { 
+      const token = sessionStorage.getItem('token');
+      const response = await fetch('http://localhost:3000/api/tasks/worker-tasks', { 
           method: 'GET',
           headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
           },
       });
       const data = await response.json();
