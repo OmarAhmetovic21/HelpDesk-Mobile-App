@@ -20,6 +20,18 @@ const handleLogout = async () => {
 };
 
 const WorkerDashboard = ({ navigation }) => {
+  const [currentIndex, setCurrentIndex] = useState(0); 
+  const handleNext = () => {
+    if (currentIndex < tasks.length - 1) {
+      setCurrentIndex(currentIndex + 1);  // Increment current index
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);  // Decrement current index
+    }
+  };
   const [tasks, setTasks] = useState([]); 
 
 const fetchTasks = async () => {
@@ -43,6 +55,8 @@ const fetchTasks = async () => {
 useEffect(() => {
   fetchTasks();
 }, []);
+
+
   return (
     <View style={styles.container}>
       <View style={styles.imageHeader}>
@@ -58,23 +72,33 @@ useEffect(() => {
         <Text style={styles.welcomeTitle}>Taskovi</Text>
       </View>
       
-      <View style={styles.cardContainer}>
-        <View style={styles.taskCard}>
-          <View style={styles.cardHeader}>
-            <Text style={styles.cardTitle}>Zadatak 1</Text>
+      {tasks.length > 0 && (
+        <View style={styles.navigationButtons}>
+          <Button title="⬅️" onPress={handlePrev} disabled={currentIndex === 0} />
+          
+          {/* Display the current task card */}
+          <View style={styles.taskCard}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardTitle}>{tasks[currentIndex].naziv_taska}</Text>
+              <Pressable style={styles.deleteButton}>
+                <Text style={styles.deleteButtonText}>🗑️</Text>
+              </Pressable>
+            </View>
+            <Text style={styles.cardDescription}>{tasks[currentIndex].tekst_taska}</Text>
+            <View style={styles.taskInfoContainer}>
+              <Text style={styles.priorityButton}>{tasks[currentIndex].prioritet}</Text>
+              {/*<Text style={styles.assignedPerson}>{tasks[currentIndex].assignedPerson}</Text>*/}
+            </View>
+            <View style={styles.statusContainer}>
+              <Text style={styles.statusLabel}>Status:</Text>
+              <Text style={styles.statusValue}>{tasks[currentIndex].status}</Text>
+            </View>
+            <Button title="Izmijeni" color="#0056b3" />
           </View>
-          <Text style={styles.cardDescription}>Odnijeti računare i popraviti ŠTO PRIJE I HITNO</Text>
-          <View style={styles.taskInfoContainer}>
-            <Text style={styles.priorityButton}>Urgentno</Text>
-            <Text style={styles.assignedPerson}>Enver</Text>
-          </View>
-          <View style={styles.statusContainer}>
-            <Text style={styles.statusLabel}>Status:</Text>
-            <Text style={styles.statusValue}>U toku</Text>
-          </View>
-          <Button title="Izmijeni" color="#0056b3" /*onPress={() => navigation.navigate('Dashboard')}*/ />
+          
+          <Button title="➡️" onPress={handleNext} disabled={currentIndex === tasks.length - 1} />
         </View>
-      </View>
+      )}
 
       <View style={styles.formContainer}>
         <Button title="Prijavite smetnju" color="#0056b3" onPress={() => navigation.navigate('ReportIssue')} />
@@ -100,97 +124,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: '100%',
     marginBottom: 20,
-  },
-  cardContainer: {
-    marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: 5,
-  },
-  taskCard: {
-    backgroundColor: '#D9D9D9',
-    width: '70%',
-    padding: 15,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'black',
-  },
-  deleteButton: {
-    backgroundColor: 'red',
-    padding: 5,
-    borderRadius: 5,
-  },
-  deleteButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  cardDescription: {
-    marginTop: 10,
-    fontSize: 16,
-    color: 'black',
-  },
-  taskInfoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  priorityButton: {
-    backgroundColor: 'orange',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  assignedPerson: {
-    backgroundColor: 'green',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  statusContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  statusLabel: {
-    fontSize: 16,
-    color: 'gray',
-    marginRight: 10,
-  },
-  statusValue: {
-    fontSize: 16,
-    color: 'black',
-    fontWeight: 'bold',
-  },
-  editButton: {
-    backgroundColor: 'blue',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  editButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
   },
   imageHeader: {
     height: 75,
@@ -231,7 +164,91 @@ const styles = StyleSheet.create({
   formContainer: {
     width: '100%',
     marginTop: 50,
-  }
+  },
+  navigationButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  taskCard: {
+    backgroundColor: '#D9D9D9',
+    width: 300,
+    height: 250,
+    padding: 15,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    padding: 5,
+    borderRadius: 5,
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  cardDescription: {
+    marginTop: 10,
+    fontSize: 16,
+    color: 'black',
+  },
+  taskInfoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
+    height: 50,
+  },
+  priorityButton: {
+    backgroundColor: 'orange',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    color: 'white',
+    fontWeight: 'bold',
+    height: 40,
+    width: 100,
+  },
+  assignedPerson: {
+    backgroundColor: 'green',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    color: 'white',
+    fontWeight: 'bold',
+    height: 25,
+    width: 80,
+  },
+  statusContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  statusLabel: {
+    fontSize: 16,
+    color: 'gray',
+    marginRight: 10,
+  },
+  statusValue: {
+    fontSize: 16,
+    color: 'black',
+    fontWeight: 'bold',
+  },
 });
 
 export default WorkerDashboard;
