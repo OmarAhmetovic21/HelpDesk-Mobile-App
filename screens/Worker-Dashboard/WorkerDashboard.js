@@ -95,7 +95,7 @@ useEffect(() => {
             <View style={styles.cardHeader}>
               <Text style={styles.cardDescription}><b>Status:</b> {tasks[currentIndex].status}</Text>
             </View>
-            
+
             <Button title="Izmijeni" color="#0056b3" />
 
 
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
-  taskCard: {
+ taskCard: {
     backgroundColor: '#D9D9D9',
     width: 300,
     height: 250,
@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
   },
   cardDescription: {
     marginTop: 10,
+    marginBottom: 10, // Dodajemo donji margin da se tekst odmakne od dugmeta
     fontSize: 16,
     color: 'black',
   },
