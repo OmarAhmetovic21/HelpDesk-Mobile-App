@@ -123,6 +123,10 @@ const handlePrevComplaint = () => {
             </View>
 
             <View style={styles.cardHeader}>
+            <Text style={styles.cardDescription}><b>Radnik:</b> {tasks[currentIndex].User.firstname} {tasks[currentIndex].User.lastname}</Text>
+            </View>
+
+            <View style={styles.cardHeader}>
             <Text style={styles.cardDescription}><b>Prioritet:</b> {tasks[currentIndex].prioritet}</Text>
             </View>
 
@@ -211,7 +215,7 @@ const styles = StyleSheet.create({
   taskCard: {
     backgroundColor: '#D9D9D9',
     width: 300,
-    height: 250,
+    height: 300,
     padding: 15,
     borderRadius: 10,
     shadowColor: '#000',
