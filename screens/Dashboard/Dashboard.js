@@ -50,6 +50,18 @@ const Dashboard = ({ navigation }) => {
     }
   };
 
+  const handleNextComplaint = () => {
+    if (currentIndex < complaints.length - 1) {
+      setCurrentIndex(currentIndex + 1);  // Increment current index
+    }
+  };
+
+  const handlePrevComplaint = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);  // Decrement current index
+    }
+  };
+
   const [complaints, setComplaints] = useState([]);
   const [selectedComplaint, setSelectedComplaint] = useState(null);
   const [loadingComplaints, setLoadingComplaints] = useState(true);
@@ -89,7 +101,6 @@ useEffect(() => {
       <View style={styles.loginHeader}>
         <Text style={styles.welcomeTitle}>Dobro došao, šef sektora</Text>
       </View>
-      <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
       <View style={styles.taskTitleHeader}>
         <Text style={styles.welcomeTitle}>Taskovi</Text>
       </View>
@@ -126,31 +137,32 @@ useEffect(() => {
         <Text style={styles.welcomeTitle}>Prijave Smetnji</Text>
       </View>
 
-      {tasks.length > 0 && (
+      {complaints.length > 0 && (
         <View style={styles.navigationButtons}>
-          <Button title="⬅️" onPress={handlePrev} disabled={currentIndex === 0} />
+          <Button title="⬅️" onPress={handlePrevComplaint} disabled={currentIndex === 0} />
           
           {/* Display the current task card */}
           <View style={styles.taskCard}>
             <View style={styles.cardHeader}>
-              <Text style={styles.cardTitle}>{tasks[currentIndex].naziv_taska}</Text>
+              <Text style={styles.cardTitle}>{complaints[currentIndex].opis}</Text>
               <Pressable style={styles.deleteButton}>
                 <Text style={styles.deleteButtonText}>🗑️</Text>
               </Pressable>
             </View>
-            <Text style={styles.cardDescription}>{tasks[currentIndex].tekst_taska}</Text>
+            <Text style={styles.cardDescription}>{complaints[currentIndex].sektor}</Text>
             <View style={styles.taskInfoContainer}>
-              <Text style={styles.priorityButton}>{tasks[currentIndex].prioritet}</Text>
+              <Text style={styles.priorityButton}>{complaints[currentIndex].ime}</Text>
               {/*<Text style={styles.assignedPerson}>{tasks[currentIndex].assignedPerson}</Text>*/}
             </View>
             <View style={styles.statusContainer}>
-              <Text style={styles.statusLabel}>Status:</Text>
-              <Text style={styles.statusValue}>{tasks[currentIndex].status}</Text>
+              <Text style={styles.statusLabel}>Email:</Text>
+              <Text style={styles.statusValue}>{complaints[currentIndex].email}</Text>
             </View>
-            <Button title="Izmijeni" color="#0056b3" />
+            <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
+
           </View>
           
-          <Button title="➡️" onPress={handleNext} disabled={currentIndex === tasks.length - 1} />
+          <Button title="➡️" onPress={handleNextComplaint} disabled={currentIndex === complaints.length - 1} />
         </View>
       )}
 
