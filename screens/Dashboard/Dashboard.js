@@ -18,7 +18,8 @@ const handleLogout = async () => {
 
 const Dashboard = ({ navigation }) => {
   const [tasks, setTasks] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);  // State to track current card
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex2, setCurrentIndex2] = useState(0); // State to track current card
 
   const fetchTasks = async () => {
     try {
@@ -45,18 +46,6 @@ const Dashboard = ({ navigation }) => {
   };
 
   const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);  // Decrement current index
-    }
-  };
-
-  const handleNextComplaint = () => {
-    if (currentIndex < complaints.length - 1) {
-      setCurrentIndex(currentIndex + 1);  // Increment current index
-    }
-  };
-
-  const handlePrevComplaint = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);  // Decrement current index
     }
@@ -90,6 +79,18 @@ useEffect(() => {
   fetchComplaints();
 }, []);
 
+const handleNextComplaint = () => {
+  if (currentIndex2 < complaints.length - 1) {
+    setCurrentIndex2(currentIndex2 + 1);  // Increment current index
+  }
+};
+
+const handlePrevComplaint = () => {
+  if (currentIndex2 > 0) {
+    setCurrentIndex2(currentIndex2 - 1);  // Decrement current index
+  }
+};
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageHeader}>
@@ -117,14 +118,16 @@ useEffect(() => {
                 <Text style={styles.deleteButtonText}>🗑️</Text>
               </Pressable>
             </View>
+            <View>
             <Text style={styles.cardDescription}>{tasks[currentIndex].tekst_taska}</Text>
+            </View>
+
             <View style={styles.taskInfoContainer}>
               <Text style={styles.priorityButton}>{tasks[currentIndex].prioritet}</Text>
               {/*<Text style={styles.assignedPerson}>{tasks[currentIndex].assignedPerson}</Text>*/}
             </View>
             <View style={styles.statusContainer}>
-              <Text style={styles.statusLabel}>Status:</Text>
-              <Text style={styles.statusValue}>{tasks[currentIndex].status}</Text>
+              <Text style={styles.cardDescription}><b>Status:</b> {tasks[currentIndex].status}</Text>
             </View>
             <Button title="Izmijeni" color="#0056b3" />
           </View>
@@ -139,30 +142,30 @@ useEffect(() => {
 
       {complaints.length > 0 && (
         <View style={styles.navigationButtons}>
-          <Button title="⬅️" onPress={handlePrevComplaint} disabled={currentIndex === 0} />
+          <Button title="⬅️" onPress={handlePrevComplaint} disabled={currentIndex2 === 0} />
           
           {/* Display the current task card */}
           <View style={styles.taskCard}>
             <View style={styles.cardHeader}>
-              <Text style={styles.cardTitle}>{complaints[currentIndex].opis}</Text>
+              <Text style={styles.cardTitleComplaint}>{complaints[currentIndex2].opis}</Text>
               <Pressable style={styles.deleteButton}>
                 <Text style={styles.deleteButtonText}>🗑️</Text>
               </Pressable>
             </View>
-            <Text style={styles.cardDescription}>{complaints[currentIndex].sektor}</Text>
-            <View style={styles.taskInfoContainer}>
-              <Text style={styles.priorityButton}>{complaints[currentIndex].ime}</Text>
-              {/*<Text style={styles.assignedPerson}>{tasks[currentIndex].assignedPerson}</Text>*/}
+            <View style={styles.cardHeader}>
+            <Text style={styles.cardDescription}><b>Sektor:</b> {complaints[currentIndex2].sektor}</Text>
             </View>
-            <View style={styles.statusContainer}>
-              <Text style={styles.statusLabel}>Email:</Text>
-              <Text style={styles.statusValue}>{complaints[currentIndex].email}</Text>
+            <View style={styles.cardHeader}>
+            <Text style={styles.cardDescription}><b>Ime:</b> {complaints[currentIndex2].ime}</Text>
+            </View>
+            <View style={styles.cardHeader}>
+            <Text style={styles.cardDescription}><b>Email:</b> {complaints[currentIndex2].email}</Text>
             </View>
             <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
 
           </View>
           
-          <Button title="➡️" onPress={handleNextComplaint} disabled={currentIndex === complaints.length - 1} />
+          <Button title="➡️" onPress={handleNextComplaint} disabled={currentIndex2 === complaints.length - 1} />
         </View>
       )}
 
@@ -319,7 +322,11 @@ const styles = StyleSheet.create({
   formContainer: {
     width: '100%',
     marginTop: 50,
-  }
+  },
+  cardTitleComplaint: {
+    fontSize: 18,
+    color: '#0056b3',
+  },
 });
 
 export default Dashboard;
