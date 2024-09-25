@@ -113,7 +113,7 @@ const handlePrevComplaint = () => {
           {/* Display the current task card */}
           <View style={styles.taskCard}>
             <View style={styles.cardHeader}>
-              <Text style={styles.cardTitle}>{tasks[currentIndex].naziv_taska}</Text>
+              <Text style={styles.cardTitleComplaint}>{tasks[currentIndex].naziv_taska}</Text>
               <Pressable style={styles.deleteButton}>
                 <Text style={styles.deleteButtonText}>🗑️</Text>
               </Pressable>
@@ -122,14 +122,16 @@ const handlePrevComplaint = () => {
             <Text style={styles.cardDescription}>{tasks[currentIndex].tekst_taska}</Text>
             </View>
 
-            <View style={styles.taskInfoContainer}>
-              <Text style={styles.priorityButton}>{tasks[currentIndex].prioritet}</Text>
-              {/*<Text style={styles.assignedPerson}>{tasks[currentIndex].assignedPerson}</Text>*/}
+            <View style={styles.cardHeader}>
+            <Text style={styles.cardDescription}><b>Prioritet:</b> {tasks[currentIndex].prioritet}</Text>
             </View>
-            <View style={styles.statusContainer}>
+
+            <View style={styles.cardHeader}>
               <Text style={styles.cardDescription}><b>Status:</b> {tasks[currentIndex].status}</Text>
             </View>
             <Button title="Izmijeni" color="#0056b3" />
+
+
           </View>
           
           <Button title="➡️" onPress={handleNext} disabled={currentIndex === tasks.length - 1} />
@@ -162,7 +164,6 @@ const handlePrevComplaint = () => {
             <Text style={styles.cardDescription}><b>Email:</b> {complaints[currentIndex2].email}</Text>
             </View>
             <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
-
           </View>
           
           <Button title="➡️" onPress={handleNextComplaint} disabled={currentIndex2 === complaints.length - 1} />
@@ -238,27 +239,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  cardDescription: {
-    marginTop: 10,
-    fontSize: 16,
-    color: 'black',
-  },
   taskInfoContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 10,
-    height: 50,
-  },
-  priorityButton: {
-    backgroundColor: 'orange',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    color: 'white',
-    fontWeight: 'bold',
-    height: 40,
-    width: 100,
+    height: 30,
   },
   assignedPerson: {
     backgroundColor: 'green',
@@ -326,7 +312,16 @@ const styles = StyleSheet.create({
   cardTitleComplaint: {
     fontSize: 18,
     color: '#0056b3',
+    fontWeight: 'bold'
   },
+  
+  cardDescription: {
+    marginTop: 10,
+    marginBottom: 10, // Dodajemo donji margin da se tekst odmakne od dugmeta
+    fontSize: 16,
+    color: 'black',
+  },
+  
 });
 
 export default Dashboard;

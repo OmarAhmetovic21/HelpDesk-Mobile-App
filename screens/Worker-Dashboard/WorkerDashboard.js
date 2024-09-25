@@ -79,21 +79,26 @@ useEffect(() => {
           {/* Display the current task card */}
           <View style={styles.taskCard}>
             <View style={styles.cardHeader}>
-              <Text style={styles.cardTitle}>{tasks[currentIndex].naziv_taska}</Text>
+              <Text style={styles.cardTitleComplaint}>{tasks[currentIndex].naziv_taska}</Text>
               <Pressable style={styles.deleteButton}>
                 <Text style={styles.deleteButtonText}>🗑️</Text>
               </Pressable>
             </View>
+            <View>
             <Text style={styles.cardDescription}>{tasks[currentIndex].tekst_taska}</Text>
-            <View style={styles.taskInfoContainer}>
-              <Text style={styles.priorityButton}>{tasks[currentIndex].prioritet}</Text>
-              {/*<Text style={styles.assignedPerson}>{tasks[currentIndex].assignedPerson}</Text>*/}
             </View>
-            <View style={styles.statusContainer}>
-              <Text style={styles.statusLabel}>Status:</Text>
-              <Text style={styles.statusValue}>{tasks[currentIndex].status}</Text>
+
+            <View style={styles.cardHeader}>
+            <Text style={styles.cardDescription}><b>Prioritet:</b> {tasks[currentIndex].prioritet}</Text>
             </View>
+
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardDescription}><b>Status:</b> {tasks[currentIndex].status}</Text>
+            </View>
+            
             <Button title="Izmijeni" color="#0056b3" />
+
+
           </View>
           
           <Button title="➡️" onPress={handleNext} disabled={currentIndex === tasks.length - 1} />
@@ -250,6 +255,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
     fontWeight: 'bold',
+  },
+  cardTitleComplaint: {
+    fontSize: 18,
+    color: '#0056b3',
+    fontWeight: 'bold'
   },
 });
 
