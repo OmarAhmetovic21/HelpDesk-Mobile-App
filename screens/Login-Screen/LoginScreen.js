@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, Image, Alert, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
 
 const LoginScreen = ({ navigation }) => {
@@ -52,7 +52,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.imageHeader}>
         <Image style={styles.logoImage} source={require('./logo_samo.png')} />
       </View>
@@ -88,7 +88,7 @@ const LoginScreen = ({ navigation }) => {
       </View>
 
      
-    </View>
+    </ScrollView>
   );
 };
 

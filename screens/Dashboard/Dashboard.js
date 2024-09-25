@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';  
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, Text, StyleSheet, Button, Pressable, Image } from 'react-native';
+import { View, Text, StyleSheet, Button, Pressable, Image, ScrollView } from 'react-native';
+
 
 const handleLogout = async () => {
   try {
@@ -49,8 +50,36 @@ const Dashboard = ({ navigation }) => {
     }
   };
 
+  const [complaints, setComplaints] = useState([]);
+  const [selectedComplaint, setSelectedComplaint] = useState(null);
+  const [loadingComplaints, setLoadingComplaints] = useState(true);
+
+  const fetchComplaints = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3000/api/report-issue/all-complaints', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+        const data = await response.json();
+        setComplaints(data.complaints || []); 
+        console.log('Dohvaćene Smetnje:', data);
+    } catch (error) {
+        console.error('Greška prilikom preuzimanja prijava smetnji:', error);
+    } finally {
+        setLoadingComplaints(false); // Postavi loading na false nakon preuzimanja podataka
+    }
+};
+
+useEffect(() => {
+  fetchComplaints();
+}, []);
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.imageHeader}>
         <Image style={styles.logoImage} source={require('./SarajevogasLogo2.jpg')} />
       </View>
@@ -61,8 +90,40 @@ const Dashboard = ({ navigation }) => {
         <Text style={styles.welcomeTitle}>Dobro došao, šef sektora</Text>
       </View>
       <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
-      <View style={styles.loginHeader}>
+      <View style={styles.taskTitleHeader}>
         <Text style={styles.welcomeTitle}>Taskovi</Text>
+      </View>
+
+      {tasks.length > 0 && (
+        <View style={styles.navigationButtons}>
+          <Button title="⬅️" onPress={handlePrev} disabled={currentIndex === 0} />
+          
+          {/* Display the current task card */}
+          <View style={styles.taskCard}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardTitle}>{tasks[currentIndex].naziv_taska}</Text>
+              <Pressable style={styles.deleteButton}>
+                <Text style={styles.deleteButtonText}>🗑️</Text>
+              </Pressable>
+            </View>
+            <Text style={styles.cardDescription}>{tasks[currentIndex].tekst_taska}</Text>
+            <View style={styles.taskInfoContainer}>
+              <Text style={styles.priorityButton}>{tasks[currentIndex].prioritet}</Text>
+              {/*<Text style={styles.assignedPerson}>{tasks[currentIndex].assignedPerson}</Text>*/}
+            </View>
+            <View style={styles.statusContainer}>
+              <Text style={styles.statusLabel}>Status:</Text>
+              <Text style={styles.statusValue}>{tasks[currentIndex].status}</Text>
+            </View>
+            <Button title="Izmijeni" color="#0056b3" />
+          </View>
+          
+          <Button title="➡️" onPress={handleNext} disabled={currentIndex === tasks.length - 1} />
+        </View>
+      )}
+
+      <View style={styles.taskTitleHeader}>
+        <Text style={styles.welcomeTitle}>Prijave Smetnji</Text>
       </View>
 
       {tasks.length > 0 && (
@@ -100,7 +161,7 @@ const Dashboard = ({ navigation }) => {
       <View style={styles.formContainer}>
         <Button title="Logout" color="#ff0808" onPress={handleLogout} />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -115,6 +176,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     width: '100%',
+    marginBottom: 20,
+  },
+  taskTitleHeader: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: '100%',
+    marginTop: 20,
     marginBottom: 20,
   },
   navigationButtons: {
@@ -222,12 +291,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#007F37',
     width: '100%',
-    marginBottom: 10,
+    marginTop: 20,
+    marginBottom: 20,
   },
   title: {
     fontSize: 21,
     fontWeight: 'bold',
     color: 'white',
+  },
+  welcomeTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#0056b3',
   },
   formContainer: {
     width: '100%',

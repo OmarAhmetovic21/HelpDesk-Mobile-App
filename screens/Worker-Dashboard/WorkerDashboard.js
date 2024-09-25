@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, Text, StyleSheet, Button, Pressable, Image } from 'react-native';
+import { View, Text, StyleSheet, Button, Pressable, Image, ScrollView } from 'react-native';
 
 
 
@@ -58,7 +58,7 @@ useEffect(() => {
 
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.imageHeader}>
         <Image style={styles.logoImage} source={require('./SarajevogasLogo2.jpg')} />
       </View>
@@ -107,7 +107,7 @@ useEffect(() => {
       <View style={styles.formContainer}>
         <Button title="Logout" color="#ff0808" onPress={handleLogout} />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     width: '100%',
+    marginTop: 20,
     marginBottom: 20,
   },
   imageHeader: {
@@ -149,7 +150,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#007F37',
     width: '100%',
-    marginBottom: 10,
+    marginTop: 20,
+    marginBottom: 20,
   },
   title: {
     fontSize: 21,
