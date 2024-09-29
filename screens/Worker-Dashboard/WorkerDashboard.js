@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'; 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, StyleSheet, Button, Pressable, Image, ScrollView } from 'react-native';
 
 
@@ -57,6 +56,7 @@ useEffect(() => {
 }, []);
 
 
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageHeader}>
@@ -96,7 +96,25 @@ useEffect(() => {
               <Text style={styles.cardDescription}><b>Status:</b> {tasks[currentIndex].status}</Text>
             </View>
 
-            <Button title="Izmijeni" color="#0056b3" />
+            <Button title="Izmijeni" color="#0056b3" onPress={async () => {
+                                                    console.log(`Pokušaj završavanja taska sa ID: ${tasks[currentIndex].id}`); // Provjeri ID taska prije slanja
+
+                                                    const response = await fetch(`http://localhost:3000/api/tasks/complete-task/${tasks[currentIndex].id}`, {
+                                                        method: 'PUT',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                        },
+                                                    });
+
+                                                    if (response.ok) {
+                                                        alert('Task je uspješno završen!');
+                                                        setTasks(tasks.map(t => t.id === tasks[currentIndex].id ? { ...t, status: 'Završeno' } : t));
+                                                    } else {
+                                                        const errorMessage = await response.json(); // Očitaj grešku sa servera
+                                                        console.log('Greška sa servera:', errorMessage);
+                                                        alert('Došlo je do greške prilikom završavanja taska.');
+                                                    }
+                                                }}/>
 
 
           </View>

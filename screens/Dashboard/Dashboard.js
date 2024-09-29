@@ -133,8 +133,26 @@ const handlePrevComplaint = () => {
             <View style={styles.cardHeader}>
               <Text style={styles.cardDescription}><b>Status:</b> {tasks[currentIndex].status}</Text>
             </View>
-            <Button title="Izmijeni" color="#0056b3" />
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardDescription}><b>Verifikacija:</b> {tasks[currentIndex].verifikacija ? 'Ovjereno' : 'Nije ovjereno'}</Text>
+            </View>
+            {tasks[currentIndex].status === 'Završeno' && !tasks[currentIndex].verifikacija && (
+            <Button title="Ovjeri" color="#0056b3" onPress={async () => {
+                                                const response = await fetch(`http://localhost:3000/api/tasks/verify-task/${tasks[currentIndex].id}`, {
+                                                    method: 'PUT',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                    },
+                                                });
 
+                                                if (response.ok) {
+                                                    alert('Task je uspješno ovjeren!');
+                                                    setTasks(tasks.map(t => t.id === tasks[currentIndex].id ? { ...t, verifikacija: true } : t)); // Ažuriraj task u stanju
+                                                } else {
+                                                    alert('Došlo je do greške prilikom verifikacije taska.');
+                                                }
+                                            }} />
+            )}
 
           </View>
           
@@ -151,7 +169,7 @@ const handlePrevComplaint = () => {
           <Button title="⬅️" onPress={handlePrevComplaint} disabled={currentIndex2 === 0} />
           
           {/* Display the current task card */}
-          <View style={styles.taskCard}>
+          <View style={styles.complaintsCard}>
             <View style={styles.cardHeader}>
               <Text style={styles.cardTitleComplaint}>{complaints[currentIndex2].opis}</Text>
               <Pressable style={styles.deleteButton}>
@@ -212,10 +230,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
+  complaintsCard:{
+backgroundColor: '#D9D9D9',
+    width: 300,
+    height: 300,
+    padding: 15,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
   taskCard: {
     backgroundColor: '#D9D9D9',
     width: 300,
-    height: 300,
+    height: 350,
     padding: 15,
     borderRadius: 10,
     shadowColor: '#000',

@@ -33,6 +33,29 @@ const ReportIssueScreen = ({ navigation }) => {
     fetchSectors();
   }, []);
 
+  const [complaints, setComplaints] = useState([]);
+  const [loadingComplaints, setLoadingComplaints] = useState(true);
+
+  const fetchComplaints = async () => {
+    try {
+      const token = sessionStorage.getItem('token'); 
+        const response = await fetch('http://localhost:3000/api/report-issue/all-complaints', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+        const data = await response.json();
+        setComplaints(data.complaints || []); 
+        console.log('Dohvaćene Smetnje:', data);
+    } catch (error) {
+        console.error('Greška prilikom preuzimanja prijava smetnji:', error);
+    } finally {
+        setLoadingComplaints(false); // Postavi loading na false nakon preuzimanja podataka
+    }
+};
+
   const handleSubmit = async () => {
     try {
         const response = await fetch('http://localhost:3000/api/report-issue', {
