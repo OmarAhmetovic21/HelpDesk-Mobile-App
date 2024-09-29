@@ -33,7 +33,7 @@ const ReportIssueScreen = ({ navigation }) => {
     fetchSectors();
   }, []);
 
-  const [complaints, setComplaints] = useState([]);
+  /*const [complaints, setComplaints] = useState([]);
   const [loadingComplaints, setLoadingComplaints] = useState(true);
 
   const fetchComplaints = async () => {
@@ -55,7 +55,7 @@ const ReportIssueScreen = ({ navigation }) => {
         setLoadingComplaints(false); // Postavi loading na false nakon preuzimanja podataka
     }
 };
-
+*/
   const handleSubmit = async () => {
     try {
         const response = await fetch('http://localhost:3000/api/report-issue', {
