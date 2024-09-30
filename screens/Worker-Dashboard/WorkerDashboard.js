@@ -80,9 +80,9 @@ useEffect(() => {
           <View style={styles.taskCard}>
             <View style={styles.cardHeader}>
               <Text style={styles.cardTitleComplaint}>{tasks[currentIndex].naziv_taska}</Text>
-              <Pressable style={styles.deleteButton}>
+              {/*<Pressable style={styles.deleteButton}>
                 <Text style={styles.deleteButtonText}>🗑️</Text>
-              </Pressable>
+              </Pressable>*/}
             </View>
             <View>
             <Text style={styles.cardDescription}>{tasks[currentIndex].tekst_taska}</Text>
@@ -96,31 +96,25 @@ useEffect(() => {
               <Text style={styles.cardDescription}><b>Status:</b> {tasks[currentIndex].status}</Text>
             </View>
 
-            {tasks[currentIndex] && tasks[currentIndex].status === 'U toku' ? (
-    <Button 
-        title="Izmijeni" 
-        color="#0056b3" 
-        onPress={async () => {
-            console.log(`Pokušaj završavanja taska sa ID: ${tasks[currentIndex].id}`);
+            <Button title="Izmijeni" color="#0056b3" onPress={async () => {
+                                                    console.log(`Pokušaj završavanja taska sa ID: ${tasks[currentIndex].id}`); // Provjeri ID taska prije slanja
 
-            const response = await fetch(`http://localhost:3000/api/tasks/complete-task/${tasks[currentIndex].id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+                                                    const response = await fetch(`http://localhost:3000/api/tasks/complete-task/${tasks[currentIndex].id}`, {
+                                                        method: 'PUT',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                        },
+                                                    });
 
-            if (response.ok) {
-                alert('Task je uspješno završen!');
-                setTasks(tasks.map(t => t.id === tasks[currentIndex].id ? { ...t, status: 'Završeno' } : t));
-            } else {
-                const errorMessage = await response.json();
-                console.log('Greška sa servera:', errorMessage);
-                alert('Došlo je do greške prilikom završavanja taska.');
-            }
-        }}
-    />
-) : null}
+                                                    if (response.ok) {
+                                                        alert('Task je uspješno završen!');
+                                                        setTasks(tasks.map(t => t.id === tasks[currentIndex].id ? { ...t, status: 'Završeno' } : t));
+                                                    } else {
+                                                        const errorMessage = await response.json(); // Očitaj grešku sa servera
+                                                        console.log('Greška sa servera:', errorMessage);
+                                                        alert('Došlo je do greške prilikom završavanja taska.');
+                                                    }
+                                                }}/>
             
 
           </View>

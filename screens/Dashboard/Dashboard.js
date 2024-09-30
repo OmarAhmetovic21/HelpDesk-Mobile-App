@@ -123,9 +123,9 @@ const handlePrevComplaint = () => {
           <View style={styles.taskCard}>
             <View style={styles.cardHeader}>
               <Text style={styles.cardTitleComplaint}>{tasks[currentIndex].naziv_taska}</Text>
-              <Pressable style={styles.deleteButton}>
+              {/*<Pressable style={styles.deleteButton}>
                 <Text style={styles.deleteButtonText}>🗑️</Text>
-              </Pressable>
+              </Pressable>*/}
             </View>
             <View>
             <Text style={styles.cardDescription}>{tasks[currentIndex].tekst_taska}</Text>
@@ -181,9 +181,9 @@ const handlePrevComplaint = () => {
           <View style={styles.complaintsCard}>
             <View style={styles.cardHeader}>
               <Text style={styles.cardTitleComplaint}>{complaints[currentIndex2].opis}</Text>
-              <Pressable style={styles.deleteButton}>
+              {/*<Pressable style={styles.deleteButton}>
                 <Text style={styles.deleteButtonText}>🗑️</Text>
-              </Pressable>
+              </Pressable>*/}
             </View>
             <View style={styles.cardHeader}>
             <Text style={styles.cardDescription}><b>Sektor:</b> {complaints[currentIndex2].sektor}</Text>
@@ -194,11 +194,23 @@ const handlePrevComplaint = () => {
             <View style={styles.cardHeader}>
             <Text style={styles.cardDescription}><b>Email:</b> {complaints[currentIndex2].email}</Text>
             </View> 
-      {complaints[currentIndex2].hasTask ? (
-                        <Text style={{ color: 'green', fontWeight: 'bold' }}>Task kreiran</Text>
-                    ) : (
-                      <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
-                    )}
+            {tasks[currentIndex].status === 'Završeno' && !tasks[currentIndex].verifikacija && (
+            <Button title="Ovjeri" color="#0056b3" onPress={async () => {
+                                                const response = await fetch(`http://localhost:3000/api/tasks/verify-task/${tasks[currentIndex].id}`, {
+                                                    method: 'PUT',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                    },
+                                                });
+
+                                                if (response.ok) {
+                                                    alert('Task je uspješno ovjeren!');
+                                                    setTasks(tasks.map(t => t.id === tasks[currentIndex].id ? { ...t, verifikacija: true } : t)); // Ažuriraj task u stanju
+                                                } else {
+                                                    alert('Došlo je do greške prilikom verifikacije taska.');
+                                                }
+                                            }} />
+            )}
            
           </View>
           
