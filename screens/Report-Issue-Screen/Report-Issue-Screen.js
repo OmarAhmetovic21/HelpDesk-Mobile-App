@@ -11,7 +11,7 @@ const ReportIssueScreen = ({ navigation }) => {
 
   const fetchSectors = async () => {
     try {
-      const token = AsyncStorage.getItem('token'); // Preuzimanje tokena iz localStorage
+      const token = sessionStorage.getItem('token'); // Preuzimanje tokena iz localStorage
       const response = await fetch('http://localhost:3000/api/report-issue/sectors', {
         method: 'GET',
         headers: {
@@ -38,7 +38,7 @@ const ReportIssueScreen = ({ navigation }) => {
 
   const fetchComplaints = async () => {
     try {
-      const token = AsyncStorage.getItem('token'); 
+      const token = sessionStorage.getItem('token'); 
         const response = await fetch('http://localhost:3000/api/report-issue/all-complaints', {
             method: 'GET',
             headers: {
@@ -71,7 +71,7 @@ const ReportIssueScreen = ({ navigation }) => {
         if (response.ok) {
             alert('Uspjeh, Smetnja je uspješno prijavljena!');
             console.log('Uspjeh, Smetnja je uspješno prijavljena!');
-            AsyncStorage.getItem('userRole')
+            sessionStorage.getItem('userRole')
             if ('userRole' === 'Sector Manager') {
               navigation.navigate('/dashboard',
                 /*{

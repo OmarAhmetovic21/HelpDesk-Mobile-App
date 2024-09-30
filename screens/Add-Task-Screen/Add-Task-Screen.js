@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-const AddTaskScreen  = ({ navigation }) =>{
-  const [selectedPriority, setSelectedPriority] = useState("");
-  const [selectedWorker, setSelectedWorker] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("");
+const AddTaskScreen  = ({ navigation, route, defaultData,onTaskCreated  }) =>{
+
 
   /*const handleSubmit = async (event) => {
     event.preventDefault();
@@ -65,6 +63,25 @@ const AddTaskScreen  = ({ navigation }) =>{
     }
 };*/
 
+const [workers, setWorkers] = useState([]);
+const [title, setTitle] = useState('');
+const [description, setDescription] = useState('');
+const [sector, setSector] = useState('');
+const [priority, setPriority] = useState('');
+const [workerEmail, setWorkerEmail] = useState('');
+const [status, setStatus] = useState('U toku');
+
+useEffect(() => {
+  if (defaultData) {
+    setSector(defaultData.sektor || '');
+    setDescription(defaultData.opis || '');
+  }
+}, [defaultData]);
+
+console.log('Pohranjeni podaci o smetnji:', [defaultData]);
+
+const { complaint } = route.params;
+
   return (
     <View style={styles.container}>
 
@@ -76,6 +93,8 @@ const AddTaskScreen  = ({ navigation }) =>{
           placeholder="Naziv zadatka"
           style={styles.input}
           autoCapitalize="none"
+          value={title}
+          onChangeText={setTitle}
         />
  
         <TextInput
@@ -84,22 +103,24 @@ const AddTaskScreen  = ({ navigation }) =>{
           multiline={true}
           numberOfLines={4} // Minimalni broj linija
           textAlignVertical="top"
+          value={description}
+          onChangeText={setDescription}
         />
                 <Picker
-          selectedValue={selectedPriority}
-          onValueChange={(itemValue) => setSelectedPriority(itemValue)}
+          selectedValue={priority}
+          onValueChange={(itemValue) => setPriority(itemValue)}
           style={styles.pickerPriority}
         >
           <Picker.Item label="Prioritet" value="" />
-          <Picker.Item label="Urgentno" value="urgent" />
-          <Picker.Item label="Visoki" value="high" />
-          <Picker.Item label="Srednji" value="medium" />
-          <Picker.Item label="Niski" value="low" />
+          <Picker.Item label="Urgentno" value="Urgentno" />
+          <Picker.Item label="Visoki" value="Visoki" />
+          <Picker.Item label="Srednji" value="Srednji" />
+          <Picker.Item label="Niski" value="Niski" />
         </Picker>
 
         <Picker
-          selectedValue={selectedWorker}
-          onValueChange={(itemValue) => setSelectedWorker(itemValue)}
+          selectedValue={workerEmail}
+          onValueChange={(itemValue) => setWorkerEmail(itemValue)}
           style={styles.pickerWorker}
         >
           <Picker.Item label="Dodijeljite task" value="" />
@@ -108,8 +129,8 @@ const AddTaskScreen  = ({ navigation }) =>{
         </Picker>
 
         <Picker
-          selectedValue={selectedStatus}
-          onValueChange={(itemValue) => setSelectedStatus(itemValue)}
+          selectedValue={status}
+          onValueChange={(itemValue) => setStatus(itemValue)}
           style={styles.pickerStatus}
         >
           <Picker.Item label="Status" value="" />

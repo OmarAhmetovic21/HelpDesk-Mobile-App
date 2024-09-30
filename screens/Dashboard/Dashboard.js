@@ -221,8 +221,21 @@ useEffect(() => {
             
             <Button title="Kreiraj Task" color="#0056b3" onPress={() => {
   setSelectedComplaint(complaints[currentIndex2]);
-  navigation.navigate('AddTask', { complaint: complaints[currentIndex2] });
-}}/>
+  navigation.navigate('AddTask', { complaint: complaints[currentIndex2] })
+  console.log(complaints[currentIndex2])
+}
+}
+defaultData={complaints[currentIndex2] ? {
+                        sektor: complaints[currentIndex2].sektor,
+                        opis: complaints[currentIndex2].opis,
+                        prijavaId: complaints[currentIndex2].id
+                    } : {
+                        sektor: user.sector,  // Koristi sektor ulogovanog korisnika kada nema prijave
+                        opis: '',  // Prazan opis kada nema prijave
+                        prijavaId: null  // Nema prijave smetnje
+                    }}
+/>
+
           
            
           </View>
