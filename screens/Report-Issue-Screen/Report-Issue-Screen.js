@@ -74,18 +74,16 @@ const ReportIssueScreen = ({ navigation }) => {
             AsyncStorage.getItem('userRole')
             if ('userRole' === 'Sector Manager') {
               navigation.navigate('/dashboard',
-                {
+                /*{
                   params: { refresh: true }, // Prosljeđuje se parametar da osvježimo dashboard
-                }
+                }*/
               );
             } else if ('userRole' === 'User') {
               navigation.navigate('/worker-dashboard');
             } else {
               Alert.alert('Greška', 'Nepoznata uloga korisnika');
             }
-            navigation.goBack({
-              params: { refresh: true }, // Prosljeđuje se parametar da osvježimo dashboard
-            });
+
         } else {
             alert('Greška, Došlo je do greške prilikom prijave smetnje.');
             console.log('Greška, Došlo je do greške prilikom prijave smetnje.');
