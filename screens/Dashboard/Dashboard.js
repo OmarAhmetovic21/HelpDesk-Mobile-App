@@ -219,7 +219,7 @@ const handleCreateTask = (complaint) => {
             <Text style={styles.cardDescription}><b>Email:</b> {complaints[currentIndex2].email}</Text>
             </View> 
             
-            <Button title="Kreiraj Task" color="#0056b3" onPress={() => handleCreateTask(complaints[currentIndex2])} />
+            <Button title="Kreiraj Task" color="#0056b3" onPress={() => navigation.navigate('AddTask')}/*onPress={() => handleCreateTask(complaints[currentIndex2])}*/ />
           
            
           </View>
