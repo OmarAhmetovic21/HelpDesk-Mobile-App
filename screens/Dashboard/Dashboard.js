@@ -118,10 +118,10 @@ useEffect(() => {
   }
 }, [navigation]);
 
-const handleCreateTask = (complaint) => {
+/*const handleCreateTask = (complaint) => {
   setSelectedComplaint(complaint);
-  setModalOpen(true);
-};
+  navigation.navigate('AddTask');
+};*/
 
 
   return (
@@ -219,7 +219,10 @@ const handleCreateTask = (complaint) => {
             <Text style={styles.cardDescription}><b>Email:</b> {complaints[currentIndex2].email}</Text>
             </View> 
             
-            <Button title="Kreiraj Task" color="#0056b3" onPress={() => navigation.navigate('AddTask')}/*onPress={() => handleCreateTask(complaints[currentIndex2])}*/ />
+            <Button title="Kreiraj Task" color="#0056b3" onPress={() => {
+  setSelectedComplaint(complaints[currentIndex2]);
+  navigation.navigate('AddTask', { complaint: complaints[currentIndex2] });
+}}/>
           
            
           </View>
