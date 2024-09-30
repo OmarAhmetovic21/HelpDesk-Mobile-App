@@ -27,6 +27,13 @@ const LoginScreen = ({ navigation }) => {
 
         console.log('Sačuvan korisnički ID:', data.user.id);
 
+        localStorage.setItem('userData', JSON.stringify({
+          firstname: data.user.firstname,
+          lastname: data.user.lastname,
+          sector: data.user.sector || 'Nije definisan sektor'
+      }));
+      console.log('Sačuvani podaci o korisniku:', localStorage.getItem('userData'));
+
         // Pohrani sektor u AsyncStorage (ako postoji)
         const userSector = data.user.sector || 'Sektor 1'; // Primjer ručnog postavljanja
         await sessionStorage.setItem('userSector', userSector);

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'; 
 import { View, Text, StyleSheet, Button, Pressable, Image, ScrollView } from 'react-native';
 
-
-
 const handleLogout = async () => {
   try {
     // Briše sve podatke iz sessionStorage (ili specificirane ključeve)
@@ -55,6 +53,24 @@ useEffect(() => {
   fetchTasks();
 }, []);
 
+const [user, setUser] = useState({ firstname: '', lastname: '', sector: '' });
+const [role, setRole] = useState('');  // Dodano za setRole
+
+useEffect(() => {
+  const userRole = localStorage.getItem('userRole');
+  setRole(userRole);
+
+  /*if (userRole !== 'User') {
+      navigation.navigate('Login'); // Ako korisnik nije radnik, preusmjeri ga
+  }*/
+
+  const userData = JSON.parse(localStorage.getItem('userData')); // Pretpostavimo da je ulogovani korisnik sačuvan
+  console.log("Korisnički podaci iz localStorage:", userData);
+  if (userData) {
+      setUser(userData); // Postavi ime, prezime i sektor
+  }
+}, [navigation]);
+
 
 
   return (
@@ -66,7 +82,7 @@ useEffect(() => {
         <Text style={styles.title}>Helpdesk</Text>
       </View>
       <View style={styles.loginHeader}>
-        <Text style={styles.welcomeTitle}>Dobro došao, korisnik</Text>
+        <Text style={styles.welcomeTitle}>Dobro došao, {user.firstname} {user.lastname} ({user.sector})</Text>
       </View>
       <View style={styles.loginHeader}>
         <Text style={styles.welcomeTitle}>Taskovi</Text>
@@ -185,6 +201,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#0056b3',
+    textAlign: 'center',
   },
   formContainer: {
     width: '100%',

@@ -100,6 +100,30 @@ const handlePrevComplaint = () => {
   }
 };
 
+const [user, setUser] = useState({ firstname: '', lastname: '', sector: '' });
+const [role, setRole] = useState('');  // Dodano za setRole
+
+useEffect(() => {
+  const userRole = localStorage.getItem('userRole');
+  setRole(userRole);
+
+  /*if (userRole !== 'User') {
+      navigation.navigate('Login'); // Ako korisnik nije radnik, preusmjeri ga
+  }*/
+
+  const userData = JSON.parse(localStorage.getItem('userData')); // Pretpostavimo da je ulogovani korisnik sačuvan
+  console.log("Korisnički podaci iz localStorage:", userData);
+  if (userData) {
+      setUser(userData); // Postavi ime, prezime i sektor
+  }
+}, [navigation]);
+
+const handleCreateTask = (complaint) => {
+  setSelectedComplaint(complaint);
+  setModalOpen(true);
+};
+
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageHeader}>
@@ -109,7 +133,7 @@ const handlePrevComplaint = () => {
         <Text style={styles.title}>Helpdesk</Text>
       </View>
       <View style={styles.loginHeader}>
-        <Text style={styles.welcomeTitle}>Dobro došao, šef sektora</Text>
+        <Text style={styles.welcomeTitle}>Dobro došao, {user.firstname} {user.lastname} ({user.sector})</Text>
       </View>
       <View style={styles.taskTitleHeader}>
         <Text style={styles.welcomeTitle}>Taskovi</Text>
@@ -145,7 +169,7 @@ const handlePrevComplaint = () => {
             <View style={styles.cardHeader}>
               <Text style={styles.cardDescription}><b>Verifikacija:</b> {tasks[currentIndex].verifikacija ? 'Ovjereno' : 'Nije ovjereno'}</Text>
             </View>
-            {tasks[currentIndex].status === 'Završeno' && !tasks[currentIndex].verifikacija && (
+            {/*{tasks[currentIndex].status === 'Završeno' && !tasks[currentIndex].verifikacija && (*/}
             <Button title="Ovjeri" color="#0056b3" onPress={async () => {
                                                 const response = await fetch(`http://localhost:3000/api/tasks/verify-task/${tasks[currentIndex].id}`, {
                                                     method: 'PUT',
@@ -161,7 +185,7 @@ const handlePrevComplaint = () => {
                                                     alert('Došlo je do greške prilikom verifikacije taska.');
                                                 }
                                             }} />
-            )}
+     {/*}       )}    */}
 
           </View>
           
@@ -194,23 +218,9 @@ const handlePrevComplaint = () => {
             <View style={styles.cardHeader}>
             <Text style={styles.cardDescription}><b>Email:</b> {complaints[currentIndex2].email}</Text>
             </View> 
-            {tasks[currentIndex].status === 'Završeno' && !tasks[currentIndex].verifikacija && (
-            <Button title="Ovjeri" color="#0056b3" onPress={async () => {
-                                                const response = await fetch(`http://localhost:3000/api/tasks/verify-task/${tasks[currentIndex].id}`, {
-                                                    method: 'PUT',
-                                                    headers: {
-                                                        'Content-Type': 'application/json',
-                                                    },
-                                                });
-
-                                                if (response.ok) {
-                                                    alert('Task je uspješno ovjeren!');
-                                                    setTasks(tasks.map(t => t.id === tasks[currentIndex].id ? { ...t, verifikacija: true } : t)); // Ažuriraj task u stanju
-                                                } else {
-                                                    alert('Došlo je do greške prilikom verifikacije taska.');
-                                                }
-                                            }} />
-            )}
+            
+            <Button title="Kreiraj Task" color="#0056b3" onPress={() => handleCreateTask(complaints[currentIndex2])} />
+          
            
           </View>
           
@@ -364,6 +374,7 @@ backgroundColor: '#D9D9D9',
     fontSize: 20,
     fontWeight: 'bold',
     color: '#0056b3',
+    textAlign: 'center'
   },
   formContainer: {
     width: '100%',
