@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-const AddTaskScreen  = ({ navigation, route, defaultData,onTaskCreated  }) =>{
+const AddTaskScreen  = ({ navigation, route, defaultData, onTaskCreated  }) =>{
 
 
   /*const handleSubmit = async (event) => {
