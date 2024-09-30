@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';  
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, StyleSheet, Button, Pressable, Image, ScrollView } from 'react-native';
 
 
@@ -16,7 +16,7 @@ const handleLogout = async () => {
   }
 };
 
-const Dashboard = ({ navigation }) => {
+const Dashboard = ({ navigation, route }) => {
   const [tasks, setTasks] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex2, setCurrentIndex2] = useState(0); // State to track current card
@@ -78,6 +78,15 @@ const Dashboard = ({ navigation }) => {
 useEffect(() => {
   fetchComplaints();
 }, []);
+
+/*useFocusEffect(
+  React.useCallback(() => {
+    // Proveri da li postoji potreba za osvežavanjem podataka
+    if (route.params?.refresh) {
+      fetchComplaints();
+    }
+  }, [route.params?.refresh])
+);*/
 
 const handleNextComplaint = () => {
   if (currentIndex2 < complaints.length - 1) {
@@ -184,8 +193,13 @@ const handlePrevComplaint = () => {
             </View>
             <View style={styles.cardHeader}>
             <Text style={styles.cardDescription}><b>Email:</b> {complaints[currentIndex2].email}</Text>
-            </View>
-            <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
+            </View> 
+      {complaints[currentIndex2].hasTask ? (
+                        <Text style={{ color: 'green', fontWeight: 'bold' }}>Task kreiran</Text>
+                    ) : (
+                      <Button title="Dodajte task" color="#0056b3" onPress={() => navigation.navigate('AddTask')} />
+                    )}
+           
           </View>
           
           <Button title="➡️" onPress={handleNextComplaint} disabled={currentIndex2 === complaints.length - 1} />

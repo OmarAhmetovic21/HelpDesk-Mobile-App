@@ -11,7 +11,7 @@ const ReportIssueScreen = ({ navigation }) => {
 
   const fetchSectors = async () => {
     try {
-      const token = sessionStorage.getItem('token'); // Preuzimanje tokena iz localStorage
+      const token = AsyncStorage.getItem('token'); // Preuzimanje tokena iz localStorage
       const response = await fetch('http://localhost:3000/api/report-issue/sectors', {
         method: 'GET',
         headers: {
@@ -38,7 +38,7 @@ const ReportIssueScreen = ({ navigation }) => {
 
   const fetchComplaints = async () => {
     try {
-      const token = sessionStorage.getItem('token'); 
+      const token = AsyncStorage.getItem('token'); 
         const response = await fetch('http://localhost:3000/api/report-issue/all-complaints', {
             method: 'GET',
             headers: {
@@ -71,6 +71,21 @@ const ReportIssueScreen = ({ navigation }) => {
         if (response.ok) {
             alert('Uspjeh, Smetnja je uspješno prijavljena!');
             console.log('Uspjeh, Smetnja je uspješno prijavljena!');
+            AsyncStorage.getItem('userRole')
+            if ('userRole' === 'Sector Manager') {
+              navigation.navigate('/dashboard',
+                {
+                  params: { refresh: true }, // Prosljeđuje se parametar da osvježimo dashboard
+                }
+              );
+            } else if ('userRole' === 'User') {
+              navigation.navigate('/worker-dashboard');
+            } else {
+              Alert.alert('Greška', 'Nepoznata uloga korisnika');
+            }
+            navigation.goBack({
+              params: { refresh: true }, // Prosljeđuje se parametar da osvježimo dashboard
+            });
         } else {
             alert('Greška, Došlo je do greške prilikom prijave smetnje.');
             console.log('Greška, Došlo je do greške prilikom prijave smetnje.');

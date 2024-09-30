@@ -7,6 +7,64 @@ const AddTaskScreen  = ({ navigation }) =>{
   const [selectedWorker, setSelectedWorker] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
 
+  /*const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    // Generiši šifru taska (ili možeš tražiti od korisnika da unese)
+    const sifra_taska = `TASK-${Math.floor(Math.random() * 100000)}`;
+
+    // Pronađi userId na osnovu emaila radnika (moraš dobiti userId iz baze na osnovu emaila)
+    const selectedWorker = workers.find(worker => worker.email === workerEmail);
+
+    if (!selectedWorker) {
+        Swal.fire('Greška', 'Nema radnika s ovim emailom', 'error');
+        return;
+    }
+
+    const userId = selectedWorker.id; // Dobij userId radnika
+
+    // Provjeri da li sektor postoji
+    console.log('Sector koji se šalje:', sector);
+
+    try {
+        // Priprema tijela zahtjeva
+        const body = {
+            naziv_taska: title,
+            tekst_taska: description,
+            prioritet: priority,
+            sifra_taska, // Dodaj šifru taska
+            userId, // Dodaj ID radnika
+            sector, // Dodaj sektor
+            status,
+        };
+
+        // Ako postoji prijava smetnji, dodaj prijavaSmetnjiId u tijelo zahtjeva
+        if (defaultData && defaultData.prijavaId) {
+            body.prijavaSmetnjiId = defaultData.prijavaId;
+        }
+
+        // Slanje zahtjeva za kreiranje taska
+        const response = await fetch('http://localhost:3000/api/tasks/create-task', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        });
+
+        if (response.ok) {
+            Swal.fire('Uspjeh!', 'Task je uspješno kreiran!', 'success');
+            onTaskCreated(defaultData ? defaultData.prijavaId : null); // Ažuriraj prijave na parent komponenti
+            toggle(); // Zatvori modal nakon uspješnog kreiranja taska
+        } else {
+            Swal.fire('Greška', 'Došlo je do greške prilikom kreiranja taska.', 'error');
+        }
+    } catch (error) {
+        console.error('Greška prilikom slanja taska:', error);
+        Swal.fire('Greška', 'Došlo je do greške prilikom slanja taska.', 'error');
+    }
+};*/
+
   return (
     <View style={styles.container}>
 
