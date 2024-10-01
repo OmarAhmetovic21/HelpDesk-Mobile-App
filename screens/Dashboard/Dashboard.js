@@ -17,9 +17,14 @@ const handleLogout = async () => {
 };
 
 const Dashboard = ({ navigation, route }) => {
+  const [complaints, setComplaints] = useState([]);
+  const [selectedComplaint, setSelectedComplaint] = useState(null);
+  const [loadingComplaints, setLoadingComplaints] = useState(true);
+  
   const [tasks, setTasks] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex2, setCurrentIndex2] = useState(0); // State to track current card
+  const [workers, setWorkers] = useState([]);
 
   const fetchTasks = async () => {
     try {
@@ -51,9 +56,6 @@ const Dashboard = ({ navigation, route }) => {
     }
   };
 
-  const [complaints, setComplaints] = useState([]);
-  const [selectedComplaint, setSelectedComplaint] = useState(null);
-  const [loadingComplaints, setLoadingComplaints] = useState(true);
 
   const fetchComplaints = async () => {
     try {
@@ -118,10 +120,63 @@ useEffect(() => {
   }
 }, [navigation]);
 
-/*const handleCreateTask = (complaint) => {
+const handleCreateTask = (complaint) => {
   setSelectedComplaint(complaint);
-  navigation.navigate('AddTask');
-};*/
+  defaultData = selectedComplaint
+    ? {
+        sektor: selectedComplaint.sektor,
+        opis: selectedComplaint.opis,
+        prijavaId: selectedComplaint.id,
+      }
+    : {
+        sektor: user.sector,
+        opis: '',
+        prijavaId: null,
+      };
+
+      workers={workers} ;
+
+      /*onTaskCreated={() => {
+        if (selectedComplaint && selectedComplaint.id && complaints.length > 0) {
+            setComplaints(complaints => complaints.map(c => 
+                c.id === selectedComplaint.id ? { ...c, hasTask: true } : c
+            ));
+        }
+    }}*/
+
+
+
+  navigation.navigate('AddTask', {
+    defaultData,
+    workers,  // Pass workers array to AddTaskScreen
+    
+  });
+};
+
+
+
+
+
+const onTaskCreated = async (complaintId) => {
+  try {
+      const response = await fetch(`http://localhost:3000/api/report-issue/create-task/${complaintId}`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+      });
+
+      if (response.ok) {
+          setComplaints(complaints.filter(c => c.id !== complaintId));
+          alert('Task je uspješno kreiran i prijava smetnji je ažurirana!');
+      } else {
+          alert('Došlo je do greške prilikom kreiranja taska.');
+      }
+  } catch (error) {
+      console.error('Greška prilikom kreiranja taska:', error);
+      alert('Došlo je do greške prilikom slanja taska.');
+  }
+};
 
 
   return (
@@ -219,22 +274,7 @@ useEffect(() => {
             <Text style={styles.cardDescription}><b>Email:</b> {complaints[currentIndex2].email}</Text>
             </View> 
             
-            <Button title="Kreiraj Task" color="#0056b3" onPress={() => {
-  setSelectedComplaint(complaints[currentIndex2]);
-  navigation.navigate('AddTask', { complaint: complaints[currentIndex2] })
-  console.log(complaints[currentIndex2])
-}
-}
-defaultData={complaints[currentIndex2] ? {
-                        sektor: complaints[currentIndex2].sektor,
-                        opis: complaints[currentIndex2].opis,
-                        prijavaId: complaints[currentIndex2].id
-                    } : {
-                        sektor: user.sector,  // Koristi sektor ulogovanog korisnika kada nema prijave
-                        opis: '',  // Prazan opis kada nema prijave
-                        prijavaId: null  // Nema prijave smetnje
-                    }}
-/>
+            <Button title="Kreiraj Task" color="#0056b3" onPress={() => handleCreateTask(complaints[currentIndex2])}/>
 
           
            
