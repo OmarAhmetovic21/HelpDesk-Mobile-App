@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-const AddTaskScreen = ({ navigation, route, defaultData, onTaskCreated }) => {
+const AddTaskScreen = ({ navigation, defaultData, onTaskCreated }) => {
   const [workers, setWorkers] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -20,18 +20,16 @@ const AddTaskScreen = ({ navigation, route, defaultData, onTaskCreated }) => {
 
   const fetchWorkers = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/workers?sector=${encodeURIComponent(sector)}`);
-      if (!response.ok) {
-        throw new Error(`Greška: ${response.statusText}`);
-      }
-      const data = await response.json();
-      setWorkers(data);  // Postavi radnike u state
+        const response = await fetch(`http://localhost:3000/api/workers?sector=${encodeURIComponent(sector)}`);
+        if (!response.ok) {
+            throw new Error(`Greška: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setWorkers(data);
     } catch (error) {
-      console.error('Greška prilikom preuzimanja radnika:', error);
+        console.error('Greška prilikom preuzimanja radnika:', error);
     }
-  };
-
-  console.log('Sector:', sector);
+};
 
   useEffect(() => {
     if (sector) {
@@ -42,53 +40,60 @@ const AddTaskScreen = ({ navigation, route, defaultData, onTaskCreated }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Generiši šifru taska (ili možeš tražiti od korisnika da unese)
     const sifra_taska = `TASK-${Math.floor(Math.random() * 100000)}`;
+
+    // Pronađi userId na osnovu emaila radnika (moraš dobiti userId iz baze na osnovu emaila)
     const selectedWorker = workers.find(worker => worker.email === workerEmail);
 
     if (!selectedWorker) {
-      alert('Greška Nema radnika s ovim emailom', 'error');
-      return;
+        alert('Greška', 'Nema radnika s ovim emailom', 'error');
+        return;
     }
 
-    const userId = selectedWorker.id;
+    const userId = selectedWorker.id; // Dobij userId radnika
 
+    // Provjeri da li sektor postoji
     console.log('Sector koji se šalje:', sector);
 
     try {
-      const body = {
-        naziv_taska: title,
-        tekst_taska: description,
-        prioritet: priority,
-        sifra_taska,
-        userId,
-        sector,
-        status,
-      };
+        // Priprema tijela zahtjeva
+        const body = {
+            naziv_taska: title,
+            tekst_taska: description,
+            prioritet: priority,
+            sifra_taska, // Dodaj šifru taska
+            userId, // Dodaj ID radnika
+            sector, // Dodaj sektor
+            status,
+        };
 
-      if (defaultData && defaultData.prijavaId) {
-        body.prijavaSmetnjiId = defaultData.prijavaId;
-      }
+        // Ako postoji prijava smetnji, dodaj prijavaSmetnjiId u tijelo zahtjeva
+        if (defaultData && defaultData.prijavaId) {
+            body.prijavaSmetnjiId = defaultData.prijavaId;
+        }
 
-      const response = await fetch('http://localhost:3000/api/tasks/create-task', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
+        // Slanje zahtjeva za kreiranje taska
+        const response = await fetch('http://localhost:3000/api/tasks/create-task', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        });
 
-      if (response.ok) {
-        alert('Uspjeh!', 'Task je uspješno kreiran!', 'success');
-        onTaskCreated(defaultData ? defaultData.prijavaId : null);
-        navigation.navigate('Dashboard');
-      } else {
-        alert('Greška Došlo je do greške prilikom kreiranja taska.', 'error');
-      }
+        if (response.ok) {
+            alert('Uspjeh!', 'Task je uspješno kreiran!', 'success');
+            onTaskCreated(defaultData ? defaultData.prijavaId : null); // Ažuriraj prijave na parent komponenti
+            toggle(); // Zatvori modal nakon uspješnog kreiranja taska
+        } else {
+            alert('Greška', 'Došlo je do greške prilikom kreiranja taska.', 'error');
+        }
     } catch (error) {
-      console.error('Greška prilikom slanja taska:', error);
-      alert('Greška', 'Došlo je do greške prilikom slanja taska.', 'error');
+        console.error('Greška prilikom slanja taska:', error);
+        alert('Greška', 'Došlo je do greške prilikom slanja taska.', 'error');
     }
-  };
+};
 
   return (
     <View style={styles.container}>
@@ -126,21 +131,28 @@ const AddTaskScreen = ({ navigation, route, defaultData, onTaskCreated }) => {
           <Picker.Item label="Niski" value="Niski" />
         </Picker>
 
-        <Picker
-  selectedValue={workerEmail}
+        {/*<TextInput   selectedValue={workerEmail}
   onValueChange={(itemValue) => setWorkerEmail(itemValue)}
-  style={styles.pickerWorker}
->
-  <Picker.Item label="Odaberite radnika" value="" />  {/* Update placeholder label */}
-  {workers.length > 0 ? (
-    workers.map(worker => (
-      <Picker.Item key={worker.id} label={worker.name} value={worker.email} />
-    ))
-  ) : (
-    <Picker.Item label="Nema dostupnih radnika" value="" />  
-  )}
-</Picker>
+  style={styles.input}
+  placeholder='Odaberite Radnika'/>*/}
 
+        <Picker
+          selectedValue={workerEmail}
+          onValueChange={(itemValue) => setWorkerEmail(itemValue)}
+          style={styles.pickerWorker}
+         >
+          <Picker.Item label="Dodijeljite task" value="" />
+
+          
+  {workers.map((worker, index) => (
+    <Picker.Item 
+      key={worker.id || index}  // Ensure unique keys, fall back to index if id is missing
+      label={worker.name && worker.lastname}
+      value={worker.email} 
+    />
+  ))}
+
+        </Picker>
         <Picker
           selectedValue={status}
           onValueChange={(itemValue) => setStatus(itemValue)}

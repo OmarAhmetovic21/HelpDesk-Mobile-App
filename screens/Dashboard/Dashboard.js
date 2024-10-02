@@ -122,35 +122,7 @@ useEffect(() => {
 
 const handleCreateTask = (complaint) => {
   setSelectedComplaint(complaint);
-  defaultData = selectedComplaint
-    ? {
-        sektor: selectedComplaint.sektor,
-        opis: selectedComplaint.opis,
-        prijavaId: selectedComplaint.id,
-      }
-    : {
-        sektor: user.sector,
-        opis: '',
-        prijavaId: null,
-      };
-
-      workers={workers} ;
-
-      /*onTaskCreated={() => {
-        if (selectedComplaint && selectedComplaint.id && complaints.length > 0) {
-            setComplaints(complaints => complaints.map(c => 
-                c.id === selectedComplaint.id ? { ...c, hasTask: true } : c
-            ));
-        }
-    }}*/
-
-
-
-  navigation.navigate('AddTask', {
-    defaultData,
-    workers,  // Pass workers array to AddTaskScreen
-    
-  });
+  navigation.navigate('AddTask')
 };
 
 
@@ -274,7 +246,7 @@ const onTaskCreated = async (complaintId) => {
             <Text style={styles.cardDescription}><b>Email:</b> {complaints[currentIndex2].email}</Text>
             </View> 
             
-            <Button title="Kreiraj Task" color="#0056b3" onPress={() => handleCreateTask(complaints[currentIndex2])}/>
+            <Button title="Kreiraj Task" color="#0056b3" /*onPress={() => navigation.navigate('AddTask')}*/ onPress={() => handleCreateTask(complaints[currentIndex2])}/>
 
           
            
