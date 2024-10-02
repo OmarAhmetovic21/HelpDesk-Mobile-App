@@ -24,7 +24,7 @@ const Dashboard = ({ navigation, route }) => {
   const [tasks, setTasks] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex2, setCurrentIndex2] = useState(0); // State to track current card
-  const [workers, setWorkers] = useState([]);
+  var [workers, setWorkers] = useState([]);
 
   const fetchTasks = async () => {
     try {
@@ -122,7 +122,20 @@ useEffect(() => {
 
 const handleCreateTask = (complaint) => {
   setSelectedComplaint(complaint);
-  navigation.navigate('AddTask')
+
+  var defaultData = selectedComplaint ? {
+    sektor: selectedComplaint.sektor || '', // Ako sektor nije definisan, koristi praznu vrijednost
+    opis: selectedComplaint.opis || '', // Ako opis nije definisan, koristi praznu vrijednost
+    prijavaId: selectedComplaint.id || null // Ako prijavaId nije definisan, koristi null
+} : {
+    sektor: user?.sector || '',  // Koristi sektor ulogovanog korisnika, ali provjeri da user postoji
+    opis: '',  // Prazan opis kada nema prijave
+    prijavaId: null  // Nema prijave smetnje
+};
+
+workers={workers} 
+  
+  navigation.navigate('AddTask', defaultData, workers)
 };
 
 
