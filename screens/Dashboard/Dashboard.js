@@ -120,27 +120,32 @@ useEffect(() => {
   }
 }, [navigation]);
 
-const handleCreateTask = (complaint) => {
-  setSelectedComplaint(complaint);
-
-  var defaultData = selectedComplaint ? {
-    sektor: selectedComplaint.sektor || '', // Ako sektor nije definisan, koristi praznu vrijednost
-    opis: selectedComplaint.opis || '', // Ako opis nije definisan, koristi praznu vrijednost
-    prijavaId: selectedComplaint.id || null // Ako prijavaId nije definisan, koristi null
+const defaultData = complaints[currentIndex2] ? {
+  sektor: complaints[currentIndex2].sektor || '', // Ako sektor nije definisan, koristi praznu vrijednost
+  opis: complaints[currentIndex2].opis || '', // Ako opis nije definisan, koristi praznu vrijednost
+  prijavaId: complaints[currentIndex2].id || null // Ako prijavaId nije definisan, koristi null
 } : {
-    sektor: user?.sector || '',  // Koristi sektor ulogovanog korisnika, ali provjeri da user postoji
-    opis: '',  // Prazan opis kada nema prijave
-    prijavaId: null  // Nema prijave smetnje
+  sektor: user.sector || '',  // Koristi sektor ulogovanog korisnika, ali provjeri da user postoji
+  opis: '',  // Prazan opis kada nema prijave
+  prijavaId: null  // Nema prijave smetnje
 };
 
 workers={workers} 
-  
-  navigation.navigate('AddTask', defaultData, workers)
+
+const handleCreateTask = () => {
+  navigation.navigate('AddTask', console.log('Default data sector:', defaultData.sektor), {
+    defaultData: defaultData, 
+    workers: workers, 
+    onTaskCreated: () => {
+      // Ažuriranje prijava, samo ako postoji selectedComplaint
+      if (selectedComplaint) {
+        setComplaints(complaints => complaints.map(c => 
+          c.id === selectedComplaint.id ? { ...c, hasTask: true } : c
+        ));
+      }
+    }
+  });
 };
-
-
-
-
 
 const onTaskCreated = async (complaintId) => {
   try {

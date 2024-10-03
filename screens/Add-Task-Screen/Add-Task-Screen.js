@@ -1,99 +1,97 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { useRoute } from '@react-navigation/native';
 
 const AddTaskScreen = ({ navigation, defaultData, onTaskCreated }) => {
   const [workers, setWorkers] = useState([]);
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [sector, setSector] = useState('');
+  const [description, setDescription] = useState(defaultData?.opis || ''); // Postavljanje opisa iz defaultData
+  const [sector, setSector] = useState(defaultData?.sektor || ''); // Postavljanje sektora iz defaultData
   const [priority, setPriority] = useState('');
   const [workerEmail, setWorkerEmail] = useState('');
   const [status, setStatus] = useState('U toku');
 
+  // Dohvati radnike na osnovu sektora
+  const fetchWorkers = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/workers?sector=${encodeURIComponent(sector)}`);
+      if (!response.ok) {
+        throw new Error(`Greška: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setWorkers(data);
+      console.log('Radnici:', data);
+    } catch (error) {
+      console.error('Greška prilikom preuzimanja radnika:', error);
+    }
+  };
+
   useEffect(() => {
     if (defaultData) {
+      // Postavi sektor i opis kada `defaultData` bude dostupno
       setSector(defaultData.sektor || '');
-      setDescription(defaultData.opis || '');  // Postavi opis
+      setDescription(defaultData.opis || '');
+      console.log('Primljeni podaci iz defaultData:', defaultData);
     }
   }, [defaultData]);
 
-  const fetchWorkers = async () => {
-    try {
-        const response = await fetch(`http://localhost:3000/api/workers?sector=${encodeURIComponent(sector)}`);
-        if (!response.ok) {
-            throw new Error(`Greška: ${response.statusText}`);
-        }
-        const data = await response.json();
-        setWorkers(data);
-    } catch (error) {
-        console.error('Greška prilikom preuzimanja radnika:', error);
-    }
-};
-
   useEffect(() => {
     if (sector) {
-      fetchWorkers();
+      console.log('Sektor je postavljen:', sector);
+      fetchWorkers(); // Dohvati radnike kada je sektor postavljen
     }
   }, [sector]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // Generiši šifru taska (ili možeš tražiti od korisnika da unese)
+  const handleSubmit = async () => {
+    // Generiši šifru taska
     const sifra_taska = `TASK-${Math.floor(Math.random() * 100000)}`;
 
-    // Pronađi userId na osnovu emaila radnika (moraš dobiti userId iz baze na osnovu emaila)
+    // Pronađi userId na osnovu emaila radnika
     const selectedWorker = workers.find(worker => worker.email === workerEmail);
 
     if (!selectedWorker) {
-        alert('Greška', 'Nema radnika s ovim emailom', 'error');
-        return;
+      alert('Greška', 'Nema radnika s ovim emailom', 'error');
+      return;
     }
 
     const userId = selectedWorker.id; // Dobij userId radnika
 
-    // Provjeri da li sektor postoji
-    console.log('Sector koji se šalje:', sector);
-
     try {
-        // Priprema tijela zahtjeva
-        const body = {
-            naziv_taska: title,
-            tekst_taska: description,
-            prioritet: priority,
-            sifra_taska, // Dodaj šifru taska
-            userId, // Dodaj ID radnika
-            sector, // Dodaj sektor
-            status,
-        };
+      const body = {
+        naziv_taska: title,
+        tekst_taska: description,
+        prioritet: priority,
+        sifra_taska, // Dodaj šifru taska
+        userId, // Dodaj ID radnika
+        sector, // Dodaj sektor
+        status,
+      };
 
-        // Ako postoji prijava smetnji, dodaj prijavaSmetnjiId u tijelo zahtjeva
-        if (defaultData && defaultData.prijavaId) {
-            body.prijavaSmetnjiId = defaultData.prijavaId;
-        }
+      if (defaultData?.prijavaId) {
+        body.prijavaSmetnjiId = defaultData.prijavaId; // Dodaj prijavaSmetnjiId ako postoji
+      }
 
-        // Slanje zahtjeva za kreiranje taska
-        const response = await fetch('http://localhost:3000/api/tasks/create-task', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(body),
-        });
+      const response = await fetch('http://localhost:3000/api/tasks/create-task', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
 
-        if (response.ok) {
-            alert('Uspjeh!', 'Task je uspješno kreiran!', 'success');
-            onTaskCreated(defaultData ? defaultData.prijavaId : null); // Ažuriraj prijave na parent komponenti
-            toggle(); // Zatvori modal nakon uspješnog kreiranja taska
-        } else {
-            alert('Greška', 'Došlo je do greške prilikom kreiranja taska.', 'error');
-        }
+      if (response.ok) {
+        alert('Uspjeh!', 'Task je uspješno kreiran!', 'success');
+        onTaskCreated(defaultData ? defaultData.prijavaId : null); // Ažuriraj prijave na parent komponenti
+        navigation.goBack(); // Vrati se na prethodni ekran nakon uspješnog kreiranja taska
+      } else {
+        alert('Greška', 'Došlo je do greške prilikom kreiranja taska.', 'error');
+      }
     } catch (error) {
-        console.error('Greška prilikom slanja taska:', error);
-        alert('Greška', 'Došlo je do greške prilikom slanja taska.', 'error');
+      console.error('Greška prilikom slanja taska:', error);
+      alert('Greška', 'Došlo je do greške prilikom slanja taska.', 'error');
     }
-};
+  };
 
   return (
     <View style={styles.container}>
@@ -108,16 +106,16 @@ const AddTaskScreen = ({ navigation, defaultData, onTaskCreated }) => {
           value={title}
           onChangeText={setTitle}
         />
- 
- <TextInput
-  placeholder="Počnite pisati..." // Updated placeholder text
-  style={styles.inputMessage}
-  multiline={true}
-  numberOfLines={4}
-  textAlignVertical="top"
-  value={description}  // Show the description or let the user input one
-  onChangeText={setDescription}
-/>
+
+        <TextInput
+          placeholder="Opis zadatka"
+          style={styles.inputMessage}
+          multiline={true}
+          numberOfLines={4}
+          textAlignVertical="top"
+          value={description} // Prikaz opisa ili omogućavanje unosa
+          onChangeText={setDescription}
+        />
 
         <Picker
           selectedValue={priority}
@@ -131,47 +129,36 @@ const AddTaskScreen = ({ navigation, defaultData, onTaskCreated }) => {
           <Picker.Item label="Niski" value="Niski" />
         </Picker>
 
-        {/*<TextInput   selectedValue={workerEmail}
-  onValueChange={(itemValue) => setWorkerEmail(itemValue)}
-  style={styles.input}
-  placeholder='Odaberite Radnika'/>*/}
-
         <Picker
           selectedValue={workerEmail}
           onValueChange={(itemValue) => setWorkerEmail(itemValue)}
           style={styles.pickerWorker}
-         >
-          <Picker.Item label="Dodijeljite task" value="" />
-
-          
-  {workers.map((worker, index) => (
-    <Picker.Item 
-      key={worker.id || index}  // Ensure unique keys, fall back to index if id is missing
-      label={worker.name && worker.lastname}
-      value={worker.email} 
-    />
-  ))}
-
+        >
+          <Picker.Item label="Dodijelite task" value="" />
+          {workers.map((worker, index) => (
+            <Picker.Item
+              key={worker.id || index} // Osiguraj jedinstvene ključeve
+              label={`${worker.name} ${worker.lastname}`}
+              value={worker.email}
+            />
+          ))}
         </Picker>
+
         <Picker
           selectedValue={status}
           onValueChange={(itemValue) => setStatus(itemValue)}
           style={styles.pickerStatus}
         >
-          <Picker.Item label="Status" value="" />
-          <Picker.Item label="U toku" value="progress" />
+          <Picker.Item label="Status" value="progress" />
           <Picker.Item label="Završeno" value="done" />
         </Picker>
+
         <View style={styles.buttonWrapper}>
-          <Button title="Spasi" color="#0056b3" onPress={handleSubmit} style={styles.buttonSave} />
+          <Button title="Spasi" color="#0056b3" onPress={handleSubmit} />
         </View>
 
         <View style={styles.buttonWrapper}>
-          <Button
-            title="Zatvori"
-            color="#ff0808"
-            onPress={() => navigation.goBack()}
-          />
+          <Button title="Zatvori" color="#ff0808" onPress={() => navigation.goBack()} />
         </View>
       </View>
     </View>
@@ -180,9 +167,9 @@ const AddTaskScreen = ({ navigation, defaultData, onTaskCreated }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: 'white', padding: 20 },
-  loginHeader: { height: 50, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', width: '100%', marginTop: '10%' },
+  loginHeader: { height: 50, justifyContent: 'center', alignItems: 'center', width: '100%', marginTop: '10%' },
   loginTitle: { fontSize: 20, fontWeight: 'bold', color: '#0056b3' },
-  formContainer: { height: '30%', width: '100%' },
+  formContainer: { width: '100%' },
   input: { width: '100%', height: 40, backgroundColor: '#D9D9D9', marginBottom: 10, paddingHorizontal: 10, borderRadius: 9, textAlign: 'center' },
   inputMessage: { width: '100%', height: 90, marginBottom: 10, borderRadius: 9, padding: 5, backgroundColor: '#D9D9D9' },
   pickerPriority: { backgroundColor: '#E39806', borderRadius: 3, color: 'white', marginBottom: 10 },
