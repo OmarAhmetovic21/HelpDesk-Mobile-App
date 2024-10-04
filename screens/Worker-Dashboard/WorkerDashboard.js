@@ -112,7 +112,7 @@ useEffect(() => {
               <Text style={styles.cardDescription}><b>Status:</b> {tasks[currentIndex].status}</Text>
             </View>
 
-            <Button title="Izmijeni" color="#0056b3" onPress={async () => {
+            <Button title="Završi Task" color="#0056b3" onPress={async () => {
                                                     console.log(`Pokušaj završavanja taska sa ID: ${tasks[currentIndex].id}`); // Provjeri ID taska prije slanja
 
                                                     const response = await fetch(`http://localhost:3000/api/tasks/complete-task/${tasks[currentIndex].id}`, {

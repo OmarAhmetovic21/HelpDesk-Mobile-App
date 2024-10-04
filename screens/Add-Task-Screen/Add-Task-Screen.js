@@ -3,7 +3,10 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useRoute } from '@react-navigation/native';
 
-const AddTaskScreen = ({ navigation, defaultData, onTaskCreated }) => {
+const AddTaskScreen = ({ navigation, onTaskCreated }) => {
+  const route = useRoute(); // Primanje podataka iz navigacije
+  const { defaultData } = route.params || {}; // Podaci iz navigacije
+
   const [workers, setWorkers] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState(defaultData?.opis || ''); // Postavljanje opisa iz defaultData
@@ -11,6 +14,7 @@ const AddTaskScreen = ({ navigation, defaultData, onTaskCreated }) => {
   const [priority, setPriority] = useState('');
   const [workerEmail, setWorkerEmail] = useState('');
   const [status, setStatus] = useState('U toku');
+
 
   // Dohvati radnike na osnovu sektora
   const fetchWorkers = async () => {
@@ -21,33 +25,28 @@ const AddTaskScreen = ({ navigation, defaultData, onTaskCreated }) => {
       }
       const data = await response.json();
       setWorkers(data);
-      console.log('Radnici:', data);
     } catch (error) {
       console.error('Greška prilikom preuzimanja radnika:', error);
     }
   };
 
   useEffect(() => {
+    
     if (defaultData) {
-      // Postavi sektor i opis kada `defaultData` bude dostupno
       setSector(defaultData.sektor || '');
       setDescription(defaultData.opis || '');
-      console.log('Primljeni podaci iz defaultData:', defaultData);
     }
   }, [defaultData]);
 
+
   useEffect(() => {
     if (sector) {
-      console.log('Sektor je postavljen:', sector);
       fetchWorkers(); // Dohvati radnike kada je sektor postavljen
     }
   }, [sector]);
 
   const handleSubmit = async () => {
-    // Generiši šifru taska
     const sifra_taska = `TASK-${Math.floor(Math.random() * 100000)}`;
-
-    // Pronađi userId na osnovu emaila radnika
     const selectedWorker = workers.find(worker => worker.email === workerEmail);
 
     if (!selectedWorker) {
@@ -55,21 +54,21 @@ const AddTaskScreen = ({ navigation, defaultData, onTaskCreated }) => {
       return;
     }
 
-    const userId = selectedWorker.id; // Dobij userId radnika
+    const userId = selectedWorker.id;
 
     try {
       const body = {
         naziv_taska: title,
         tekst_taska: description,
         prioritet: priority,
-        sifra_taska, // Dodaj šifru taska
-        userId, // Dodaj ID radnika
-        sector, // Dodaj sektor
+        sifra_taska,
+        userId,
+        sector,
         status,
       };
 
       if (defaultData?.prijavaId) {
-        body.prijavaSmetnjiId = defaultData.prijavaId; // Dodaj prijavaSmetnjiId ako postoji
+        body.prijavaSmetnjiId = defaultData.prijavaId;
       }
 
       const response = await fetch('http://localhost:3000/api/tasks/create-task', {
@@ -82,8 +81,8 @@ const AddTaskScreen = ({ navigation, defaultData, onTaskCreated }) => {
 
       if (response.ok) {
         alert('Uspjeh!', 'Task je uspješno kreiran!', 'success');
-        onTaskCreated(defaultData ? defaultData.prijavaId : null); // Ažuriraj prijave na parent komponenti
-        navigation.goBack(); // Vrati se na prethodni ekran nakon uspješnog kreiranja taska
+        onTaskCreated(defaultData ? defaultData.prijavaId : null);
+        navigation.goBack();
       } else {
         alert('Greška', 'Došlo je do greške prilikom kreiranja taska.', 'error');
       }
@@ -102,7 +101,6 @@ const AddTaskScreen = ({ navigation, defaultData, onTaskCreated }) => {
         <TextInput
           placeholder="Naziv zadatka"
           style={styles.input}
-          autoCapitalize="none"
           value={title}
           onChangeText={setTitle}
         />
@@ -113,7 +111,7 @@ const AddTaskScreen = ({ navigation, defaultData, onTaskCreated }) => {
           multiline={true}
           numberOfLines={4}
           textAlignVertical="top"
-          value={description} // Prikaz opisa ili omogućavanje unosa
+          value={description}
           onChangeText={setDescription}
         />
 
@@ -137,8 +135,8 @@ const AddTaskScreen = ({ navigation, defaultData, onTaskCreated }) => {
           <Picker.Item label="Dodijelite task" value="" />
           {workers.map((worker, index) => (
             <Picker.Item
-              key={worker.id || index} // Osiguraj jedinstvene ključeve
-              label={`${worker.name} ${worker.lastname}`}
+              key={worker.id || index}
+              label={`${worker.name} && ${worker.lastname}`}
               value={worker.email}
             />
           ))}

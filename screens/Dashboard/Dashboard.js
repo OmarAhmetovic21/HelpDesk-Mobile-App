@@ -133,9 +133,9 @@ const defaultData = complaints[currentIndex2] ? {
 workers={workers} 
 
 const handleCreateTask = () => {
-  navigation.navigate('AddTask', console.log('Default data sector:', defaultData.sektor), {
-    defaultData: defaultData, 
-    workers: workers, 
+  navigation.navigate('AddTask', {
+    defaultData,
+    workers, 
     onTaskCreated: () => {
       // Ažuriranje prijava, samo ako postoji selectedComplaint
       if (selectedComplaint) {
@@ -143,8 +143,11 @@ const handleCreateTask = () => {
           c.id === selectedComplaint.id ? { ...c, hasTask: true } : c
         ));
       }
-    }
+    },
+    
+    
   });
+  console.log(defaultData.sektor,',', defaultData.opis)
 };
 
 const onTaskCreated = async (complaintId) => {
