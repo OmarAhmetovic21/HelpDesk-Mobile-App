@@ -13,7 +13,7 @@ const AddTaskScreen = ({ navigation, onTaskCreated }) => {
   const [sector, setSector] = useState(defaultData?.sektor || ''); // Postavljanje sektora iz defaultData
   const [priority, setPriority] = useState('');
   const [workerEmail, setWorkerEmail] = useState('');
-  const [status, setStatus] = useState('U toku');
+  const [selectedStatus, setStatus] = useState('U toku');
 
 
   // Dohvati radnike na osnovu sektora
@@ -50,7 +50,7 @@ const AddTaskScreen = ({ navigation, onTaskCreated }) => {
     const selectedWorker = workers.find(worker => worker.email === workerEmail);
 
     if (!selectedWorker) {
-      alert('Greška', 'Nema radnika s ovim emailom', 'error');
+      alert('Greška Nema radnika s ovim emailom', 'error');
       return;
     }
 
@@ -64,7 +64,8 @@ const AddTaskScreen = ({ navigation, onTaskCreated }) => {
         sifra_taska,
         userId,
         sector,
-        status,
+        status: selectedStatus,
+        //worker: workerEmail
       };
 
       if (defaultData?.prijavaId) {
@@ -80,15 +81,15 @@ const AddTaskScreen = ({ navigation, onTaskCreated }) => {
       });
 
       if (response.ok) {
-        alert('Uspjeh!', 'Task je uspješno kreiran!', 'success');
+        alert('Uspjeh! Task je uspješno kreiran!', 'success');
         onTaskCreated(defaultData ? defaultData.prijavaId : null);
         navigation.goBack();
       } else {
-        alert('Greška', 'Došlo je do greške prilikom kreiranja taska.', 'error');
+        alert('Greška Došlo je do greške prilikom kreiranja taska.', 'error');
       }
     } catch (error) {
-      console.error('Greška prilikom slanja taska:', error);
-      alert('Greška', 'Došlo je do greške prilikom slanja taska.', 'error');
+      /*console.error('Greška prilikom slanja taska:', error);
+      alert('Greška Došlo je do greške prilikom slanja taska.', 'error');*/
     }
   };
 
@@ -115,41 +116,44 @@ const AddTaskScreen = ({ navigation, onTaskCreated }) => {
           onChangeText={setDescription}
         />
 
-        <Picker
-          selectedValue={priority}
-          onValueChange={(itemValue) => setPriority(itemValue)}
-          style={styles.pickerPriority}
-        >
-          <Picker.Item label="Prioritet" value="" />
-          <Picker.Item label="Urgentno" value="Urgentno" />
-          <Picker.Item label="Visoki" value="Visoki" />
-          <Picker.Item label="Srednji" value="Srednji" />
-          <Picker.Item label="Niski" value="Niski" />
-        </Picker>
+<Picker
+  selectedValue={priority}
+  onValueChange={(itemValue) => setPriority(itemValue)}
+  style={styles.pickerPriority}
+>
+  <Picker.Item label="Prioritet" value="" enabled={false} />
+  <Picker.Item label="Urgentno" value="Urgentno" />
+  <Picker.Item label="Visoki" value="Visoki" />
+  <Picker.Item label="Srednji" value="Srednji" />
+  <Picker.Item label="Niski" value="Niski" />
+</Picker>
 
-        <Picker
-          selectedValue={workerEmail}
-          onValueChange={(itemValue) => setWorkerEmail(itemValue)}
-          style={styles.pickerWorker}
-        >
-          <Picker.Item label="Dodijelite task" value="" />
-          {workers.map((worker, index) => (
-            <Picker.Item
-              key={worker.id || index}
-              label={`${worker.firstname} ${worker.lastname}`} 
-              value={worker.email}
-            />
-          ))}
-        </Picker>
+<Picker
+  selectedValue={workerEmail}
+  onValueChange={(itemValue) => setWorkerEmail(itemValue)}
+  style={styles.pickerWorker}
+>
+  <Picker.Item label="Dodijelite task" value="" enabled={false} />
+  {workers.map((worker, index) => (
+    <Picker.Item
+      key={worker.id || index}
+      label={`${worker.firstname} ${worker.lastname}`} 
+      value={worker.email}
+    />
+  ))}
+</Picker>
 
-        <Picker
-          selectedValue={status}
-          onValueChange={(itemValue) => setStatus(itemValue)}
-          style={styles.pickerStatus}
-        >
-          <Picker.Item label="Status" value="progress" />
-          <Picker.Item label="Završeno" value="done" />
-        </Picker>
+<Picker
+  selectedValue={selectedStatus}
+  onValueChange={(itemValue) => setStatus(itemValue)}
+  style={styles.pickerStatus}
+>
+  <Picker.Item label="Status" value="" enabled={false} />
+  <Picker.Item label="U toku" value="U toku" />
+  <Picker.Item label="Završeno" value="Završeno" />
+</Picker>
+
+
 
         <View style={styles.buttonWrapper}>
           <Button title="Spasi" color="#0056b3" onPress={handleSubmit} />
