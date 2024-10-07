@@ -136,7 +136,7 @@ const AddTaskScreen = ({ navigation, onTaskCreated }) => {
           {workers.map((worker, index) => (
             <Picker.Item
               key={worker.id || index}
-              label={`${worker.name} ${worker.lastname}`}
+              label={`${worker.firstname} ${worker.lastname}`} 
               value={worker.email}
             />
           ))}
