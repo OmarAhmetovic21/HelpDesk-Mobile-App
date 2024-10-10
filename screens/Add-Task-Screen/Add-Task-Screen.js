@@ -13,7 +13,7 @@ const AddTaskScreen = ({ navigation, onTaskCreated }) => {
   const [sector, setSector] = useState(defaultData?.sektor || ''); // Postavljanje sektora iz defaultData
   const [priority, setPriority] = useState('');
   const [workerEmail, setWorkerEmail] = useState('');
-  const [selectedStatus, setStatus] = useState('U toku');
+  const [selectedStatus, setStatus] = useState('');
 
 
   // Dohvati radnike na osnovu sektora
@@ -71,6 +71,7 @@ const AddTaskScreen = ({ navigation, onTaskCreated }) => {
       if (defaultData?.prijavaId) {
         body.prijavaSmetnjiId = defaultData.prijavaId;
       }
+      console.log(body);
 
       const response = await fetch('http://localhost:3000/api/tasks/create-task', {
         method: 'POST',
@@ -148,7 +149,7 @@ const AddTaskScreen = ({ navigation, onTaskCreated }) => {
   onValueChange={(itemValue) => setStatus(itemValue)}
   style={styles.pickerStatus}
 >
-  <Picker.Item label="Status" value="" enabled={false} />
+  <Picker.Item label="Prioritet" value="" enabled={false} />
   <Picker.Item label="U toku" value="U toku" />
   <Picker.Item label="Završeno" value="Završeno" />
 </Picker>
