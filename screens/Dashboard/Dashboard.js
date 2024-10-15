@@ -121,11 +121,11 @@ useEffect(() => {
 }, [navigation]);
 
 const defaultData = complaints[currentIndex2] ? {
-  sektor: complaints[currentIndex2].sektor || '', // Ako sektor nije definisan, koristi praznu vrijednost
+  sektor: complaints[currentIndex2].sektor || '',  //Ako sektor nije definisan, koristi praznu vrijednost
   opis: complaints[currentIndex2].opis || '', // Ako opis nije definisan, koristi praznu vrijednost
   prijavaId: complaints[currentIndex2].id || null // Ako prijavaId nije definisan, koristi null
 } : {
-  sektor: user.sector || '',  // Koristi sektor ulogovanog korisnika, ali provjeri da user postoji
+  //sektor: user.sector || '',  // Koristi sektor ulogovanog korisnika, ali provjeri da user postoji
   opis: '',  // Prazan opis kada nema prijave
   prijavaId: null  // Nema prijave smetnje
 };

@@ -149,7 +149,7 @@ const AddTaskScreen = ({ navigation, onTaskCreated }) => {
   onValueChange={(itemValue) => setStatus(itemValue)}
   style={styles.pickerStatus}
 >
-  <Picker.Item label="Prioritet" value="" enabled={false} />
+  <Picker.Item label="Status" value="" enabled={false} />
   <Picker.Item label="U toku" value="U toku" />
   <Picker.Item label="Završeno" value="Završeno" />
 </Picker>
