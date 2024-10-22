@@ -8,6 +8,8 @@ const handleLogout = async () => {
     await sessionStorage.removeItem('userRole');
     await sessionStorage.removeItem('userId');
     await sessionStorage.removeItem('userSector');
+
+    await localStorage.removeItem('userData');
     
     // Možeš dodati navigaciju ka login ekranu nakon logout-a
     navigation.navigate('Login');  // Pretpostavljam da koristiš 'LoginScreen' kao login rutu

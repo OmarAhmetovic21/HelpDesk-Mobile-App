@@ -9,6 +9,7 @@ const handleLogout = async () => {
     await sessionStorage.removeItem('userRole');
     await sessionStorage.removeItem('userId');
     await sessionStorage.removeItem('userSector');
+    await localStorage.removeItem('userData');
     
     navigation.navigate('Login');
   } catch (error) {

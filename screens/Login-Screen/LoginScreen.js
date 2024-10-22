@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'; // Import 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = async () => {
     try {
@@ -27,12 +28,12 @@ const LoginScreen = ({ navigation }) => {
 
         console.log('Sačuvan korisnički ID:', data.user.id);
 
-        localStorage.setItem('userData', JSON.stringify({
+        sessionStorage.setItem('userData', JSON.stringify({
           firstname: data.user.firstname,
           lastname: data.user.lastname,
           sector: data.user.sector || 'Nije definisan sektor'
       }));
-      console.log('Sačuvani podaci o korisniku:', localStorage.getItem('userData'));
+      console.log('Sačuvani podaci o korisniku:', sessionStorage.getItem('userData'));
 
         // Pohrani sektor u AsyncStorage (ako postoji)
         const userSector = data.user.sector || 'Sektor 1'; // Primjer ručnog postavljanja
@@ -69,6 +70,11 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.loginHeader}>
         <Text style={styles.loginTitle}>Login</Text>
       </View>
+      {errorMessage ? (
+        <Text style={styles.loginErrorMessage}>
+          {errorMessage}
+        </Text>
+      ) : null}
       <View style={styles.formContainer}>
         <Text style={styles.label}>Email</Text>
         <TextInput
@@ -176,6 +182,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 100,
   },
+  loginErrorMessage: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'red',
+    textAlign: 'center',
+    marginBottom: 20
+  }
 });
 
 export default LoginScreen;
