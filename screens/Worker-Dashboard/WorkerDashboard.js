@@ -4,12 +4,12 @@ import { View, Text, StyleSheet, Button, Pressable, Image, ScrollView } from 're
 const handleLogout = async () => {
   try {
     // Briše sve podatke iz sessionStorage (ili specificirane ključeve)
-    await sessionStorage.removeItem('token');
+    /*await sessionStorage.removeItem('token');  
     await sessionStorage.removeItem('userRole');
     await sessionStorage.removeItem('userId');
     await sessionStorage.removeItem('userSector');
-
-    await localStorage.removeItem('userData');
+    await sessionStorage.removeItem('userData');*/
+    await sessionStorage.clear();
     
     // Možeš dodati navigaciju ka login ekranu nakon logout-a
     navigation.navigate('Login');  // Pretpostavljam da koristiš 'LoginScreen' kao login rutu
@@ -59,14 +59,14 @@ const [user, setUser] = useState({ firstname: '', lastname: '', sector: '' });
 const [role, setRole] = useState('');  // Dodano za setRole
 
 useEffect(() => {
-  const userRole = localStorage.getItem('userRole');
+  const userRole = sessionStorage.getItem('userRole');
   setRole(userRole);
 
   /*if (userRole !== 'User') {
       navigation.navigate('Login'); // Ako korisnik nije radnik, preusmjeri ga
   }*/
 
-  const userData = JSON.parse(localStorage.getItem('userData')); // Pretpostavimo da je ulogovani korisnik sačuvan
+  const userData = JSON.parse(sessionStorage.getItem('userData')); // Pretpostavimo da je ulogovani korisnik sačuvan
   console.log("Korisnički podaci iz localStorage:", userData);
   if (userData) {
       setUser(userData); // Postavi ime, prezime i sektor
@@ -112,6 +112,10 @@ useEffect(() => {
 
             <View style={styles.cardHeader}>
               <Text style={styles.cardDescription}><b>Status:</b> {tasks[currentIndex].status}</Text>
+            </View>
+
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardDescription}><b>Datum kreiranja:</b> {tasks[currentIndex].createdAt}</Text>
             </View>
 
             <Button title="Završi Task" color="#0056b3" onPress={async () => {

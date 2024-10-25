@@ -5,11 +5,12 @@ import { View, Text, StyleSheet, Button, Pressable, Image, ScrollView } from 're
 
 const handleLogout = async () => {
   try {
-    await sessionStorage.removeItem('token');  
+    /*await sessionStorage.removeItem('token');  
     await sessionStorage.removeItem('userRole');
     await sessionStorage.removeItem('userId');
     await sessionStorage.removeItem('userSector');
-    await localStorage.removeItem('userData');
+    await sessionStorage.removeItem('userData');*/
+    await sessionStorage.clear();
     
     navigation.navigate('Login');
   } catch (error) {
@@ -107,14 +108,14 @@ const [user, setUser] = useState({ firstname: '', lastname: '', sector: '' });
 const [role, setRole] = useState('');  // Dodano za setRole
 
 useEffect(() => {
-  const userRole = localStorage.getItem('userRole');
+  const userRole = sessionStorage.getItem('userRole');
   setRole(userRole);
 
   /*if (userRole !== 'User') {
       navigation.navigate('Login'); // Ako korisnik nije radnik, preusmjeri ga
   }*/
 
-  const userData = JSON.parse(localStorage.getItem('userData')); // Pretpostavimo da je ulogovani korisnik sačuvan
+  const userData = JSON.parse(sessionStorage.getItem('userData')); // Pretpostavimo da je ulogovani korisnik sačuvan
   console.log("Korisnički podaci iz localStorage:", userData);
   if (userData) {
       setUser(userData); // Postavi ime, prezime i sektor
