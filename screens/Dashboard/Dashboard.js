@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';  
 import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, StyleSheet, Button, Pressable, Image, ScrollView } from 'react-native';
+import { format } from 'date-fns';
 
 
 const handleLogout = async () => {
@@ -219,6 +220,11 @@ const onTaskCreated = async (complaintId) => {
             <View style={styles.cardHeader}>
               <Text style={styles.cardDescription}><b>Verifikacija:</b> {tasks[currentIndex].verifikacija ? 'Ovjereno' : 'Nije ovjereno'}</Text>
             </View>
+            <View style={styles.cardHeader}>
+  <Text style={styles.cardDescription}>
+    <b>Datum kreiranja:</b> {format(new Date(tasks[currentIndex].createdAt), 'dd.MM.yyyy. HH:mm')}
+  </Text>
+</View>
             {/*{tasks[currentIndex].status === 'Završeno' && !tasks[currentIndex].verifikacija && (*/}
             <Button title="Ovjeri" color="#0056b3" onPress={async () => {
                                                 const response = await fetch(`http://localhost:3000/api/tasks/verify-task/${tasks[currentIndex].id}`, {

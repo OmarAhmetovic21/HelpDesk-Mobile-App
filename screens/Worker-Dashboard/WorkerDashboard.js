@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'; 
 import { View, Text, StyleSheet, Button, Pressable, Image, ScrollView } from 'react-native';
+import { format } from 'date-fns';
 
 const handleLogout = async () => {
   try {
@@ -115,8 +116,10 @@ useEffect(() => {
             </View>
 
             <View style={styles.cardHeader}>
-              <Text style={styles.cardDescription}><b>Datum kreiranja:</b> {tasks[currentIndex].createdAt}</Text>
-            </View>
+  <Text style={styles.cardDescription}>
+    <b>Datum kreiranja:</b> {format(new Date(tasks[currentIndex].createdAt), 'dd.MM.yyyy. HH:mm')}
+  </Text>
+</View>
 
             <Button title="Završi Task" color="#0056b3" onPress={async () => {
                                                     console.log(`Pokušaj završavanja taska sa ID: ${tasks[currentIndex].id}`); // Provjeri ID taska prije slanja
